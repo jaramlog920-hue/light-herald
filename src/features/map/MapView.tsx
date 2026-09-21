@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router'
 import mapJson from '../../content/map.json'
 import type { MapData } from '../../content/types'
@@ -10,6 +10,7 @@ import { FootprintLayer } from './layers/FootprintLayer'
 import { ChurchLayer } from './layers/ChurchLayer'
 import { NewJerusalemLayer } from './layers/NewJerusalemLayer'
 import { ProgressBar } from '../../shared/ProgressBar'
+import { CityPanel } from './CityPanel'
 import { APP_TITLE } from '../../app/branding'
 import './map.css'
 
@@ -23,6 +24,8 @@ export function MapView() {
   const readChapters = useProgress((s) => s.readChapters)
   const total = selectTotalProgress({ readChapters })
   const scroller = useRef<HTMLDivElement>(null)
+  const [selected, setSelected] = useState<string | null>(null)
+  const complete = total.read === total.total
   const layer = { state, cities: CITIES, isNew }
   const [lb, lc] = (lastRef ?? 'mat:1').split(':')
 
@@ -49,7 +52,7 @@ export function MapView() {
             </defs>
             <SpreadLayer {...layer} />
             <FootprintLayer {...layer} />
-            <CityLayer {...layer} />
+            <CityLayer {...layer} onSelect={setSelected} />
             <ChurchLayer {...layer} />
             <NewJerusalemLayer {...layer} />
           </svg>
@@ -60,9 +63,15 @@ export function MapView() {
         <ProgressBar {...total} />
       </header>
       <footer className="map-actions">
-        <Link className="btn primary" to={`/read/${lb}/${lc}`}>
-          {lastRef ? '이어 읽기' : '읽기 시작'}
-        </Link>
+        {complete ? (
+          <Link className="btn primary" to="/complete">
+            완주 보기
+          </Link>
+        ) : (
+          <Link className="btn primary" to={`/read/${lb}/${lc}`}>
+            {lastRef ? '이어 읽기' : '읽기 시작'}
+          </Link>
+        )}
         <Link className="btn" to="/books">
           책 목록
         </Link>
@@ -70,6 +79,7 @@ export function MapView() {
           카드장
         </Link>
       </footer>
+      {selected && CITIES.get(selected) && <CityPanel city={CITIES.get(selected)!} state={state} onClose={() => setSelected(null)} />}
     </main>
   )
 }

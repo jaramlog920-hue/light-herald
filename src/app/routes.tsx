@@ -5,6 +5,7 @@ import { ChapterList } from '../features/reader/ChapterList'
 import { ChapterView } from '../features/reader/ChapterView'
 import { CardGallery } from '../features/cards/CardGallery'
 import { PeopleGraph } from '../features/cards/PeopleGraph'
+import { CompleteView } from '../features/complete/CompleteView'
 
 export function AppRoutes({ home }: { home: ReactNode }) {
   return (
@@ -15,6 +16,7 @@ export function AppRoutes({ home }: { home: ReactNode }) {
       <Route path="/read/:bookId/:chapter" element={<ChapterView />} />
       <Route path="/cards" element={<CardGallery />} />
       <Route path="/people" element={<PeopleGraph />} />
+      <Route path="/complete" element={<CompleteView />} />
     </Routes>
   )
 }

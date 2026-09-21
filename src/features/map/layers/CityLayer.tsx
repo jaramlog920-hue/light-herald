@@ -2,13 +2,21 @@ import { motion } from 'framer-motion'
 import type { LayerProps } from './types'
 
 /** 모든 도시 점과 이름. 켜진 도시는 금빛으로 맥동한다 */
-export function CityLayer({ state, cities }: LayerProps) {
+export function CityLayer({ state, cities, onSelect }: LayerProps & { onSelect?: (id: string) => void }) {
   return (
     <g className="layer-city">
       {[...cities.values()].map((c) => {
         const lit = state.litCities.has(c.id)
         return (
-          <g key={c.id} data-testid={`city-${c.id}`} data-lit={lit} transform={`translate(${c.x} ${c.y})`}>
+          <g
+            key={c.id}
+            data-testid={`city-${c.id}`}
+            data-lit={lit}
+            transform={`translate(${c.x} ${c.y})`}
+            onClick={() => onSelect?.(c.id)}
+            style={{ cursor: 'pointer' }}
+          >
+            <circle r={30} fill="transparent" />
             {lit && (
               <motion.circle
                 r={22}
