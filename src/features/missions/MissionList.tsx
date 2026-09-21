@@ -28,8 +28,9 @@ export function MissionList() {
         </Link>
         <h1>미션</h1>
         <p className="muted">
-          {cleared}/{MISSIONS.length} 완료 · 보석 💎 {gems}
+          {cleared}/{MISSIONS.length} 완료 · 약속의 보석 💎 {gems}
         </p>
+        <p className="muted">보석은 말씀 조각(암송) 미션을 완료하면 얻고, 다른 미션에서 힌트를 볼 때 하나씩 씁니다.</p>
       </header>
       {BOOKS.map((b) => {
         const list = MISSIONS.filter((m) => parseRef(m.ref).bookId === b.id)
