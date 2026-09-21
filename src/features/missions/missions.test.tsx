@@ -86,3 +86,15 @@ test('mission list shows lock state and reward sheet links to mission', async ()
   await user.click(screen.getByRole('button', { name: '읽음' }))
   expect(screen.getByRole('link', { name: /미션 해금/ })).toHaveAttribute('href', '/missions/mat:16:quiz')
 })
+
+test('word puzzle shows gem message once', async () => {
+  const user = userEvent.setup()
+  useProgress.getState().markRead('mat:5')
+  at('/missions/mat:5:word-puzzle')
+  const m = missionForRef('mat:5')!
+  if (m.type !== 'word-puzzle') throw new Error()
+  for (const w of m.words) await user.click(screen.getByRole('button', { name: w }))
+  await user.click(screen.getByRole('button', { name: '완성' }))
+  expect(screen.getByRole('status')).toHaveTextContent('약속의 보석을 얻었습니다')
+  expect(screen.getByRole('status')).toHaveTextContent('보유 1개')
+})

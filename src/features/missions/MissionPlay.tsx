@@ -35,6 +35,7 @@ export function MissionPlay() {
   const [hintShown, setHintShown] = useState(false)
   const [hintsUsed, setHintsUsed] = useState(0)
   const [attempt, setAttempt] = useState(0)
+  const [gotGem, setGotGem] = useState(false)
 
   if (!mission) {
     return (
@@ -74,7 +75,10 @@ export function MissionPlay() {
     if (ok) {
       if (!record) {
         clearMission(mission.id, hintsUsed)
-        if (rewardsGem(mission)) addGem()
+        if (rewardsGem(mission)) {
+          addGem()
+          setGotGem(true)
+        }
       }
       setResult('right')
     } else {
@@ -125,7 +129,8 @@ export function MissionPlay() {
       {result === 'right' && (
         <motion.div className="result right" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} role="status">
           <strong>기록이 복원되었습니다.</strong>
-          {rewardsGem(mission) && !record?.clearedAt && <div>약속의 보석을 얻었습니다 💎</div>}
+          {gotGem && <div>약속의 보석을 얻었습니다 💎 (보유 {gems}개)</div>}
+          {!gotGem && rewardsGem(mission) && <div className="muted">이미 완료한 미션은 보석을 다시 주지 않습니다.</div>}
           {record && <div className="muted">완료 {record.clearedAt.slice(0, 10)}</div>}
         </motion.div>
       )}
