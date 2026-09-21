@@ -23,7 +23,7 @@ export function BookList() {
         <Link to="/" className="back">
           ← 지도
         </Link>
-        <h1>신약 아카이브</h1>
+        <h1>신약 (개역한글)</h1>
         <ProgressBar {...total} />
       </header>
       {groups.map((g) => (
