@@ -50,8 +50,9 @@ for (const [ref, pick] of Object.entries(picks)) {
     else {
       const text = ws.map((w, i) => (i === idxs[0] ? '____' : w)).join(' ')
       // 오답: 같은 장에서 길이 비슷한 다른 단어 3개 (결정적 선택)
-      const pool = [...new Set(bible[b][c - 1].flatMap((vv) => vv.split(/\s+/)))]
-        .filter((w) => w !== answer && !ws.includes(w) && Math.abs(w.length - answer.length) <= 1 && w.length >= 2)
+      const all = [...new Set(bible[b][c - 1].flatMap((vv) => vv.split(/\s+/)))].filter((w) => w !== answer && !ws.includes(w) && w.length >= 2)
+      let pool = []
+      for (let tol = 1; tol <= 6 && pool.length < 3; tol++) pool = all.filter((w) => Math.abs(w.length - answer.length) <= tol)
       if (pool.length < 3) errors.push(`${ref} blank: not enough distractors for '${answer}'`)
       else {
         let h = 0
