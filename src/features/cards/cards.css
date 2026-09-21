@@ -1,4 +1,4 @@
-.card { --c: var(--gold); --frame: url('/assets/card-frame-event.png'); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 26px 26px 22px; border-radius: 12px; background: linear-gradient(160deg, #1b2134, #0f1320); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
+.card { --c: var(--gold); --frame: url('/assets/card-frame-event.png'); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 26px 26px 24px 38px; border-radius: 12px; background: linear-gradient(160deg, #1b2134, #0f1320); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
 /* 세로형 프레임(720×960)을 어떤 비율의 카드에도 맞추기: 모서리 장식은 원형 유지, 변만 늘어남 */
 .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; border-style: solid; border-width: 42px 35px; border-image: var(--frame) 210 175 round; }
 .card-person::before { display: none; }
@@ -10,13 +10,12 @@
 .card-person { --c: #d8484f; }
 .card-word { --c: #9fc4e8; }
 .card-locked { --c: #3a3f52; opacity: 0.75; box-shadow: none; }
-.card-compact { min-height: 0; padding: 20px 26px 18px; }
+.card-compact { min-height: 0; padding: 20px 26px 20px 38px; }
 .card-type { font-size: 11px; letter-spacing: 1px; color: var(--c); display: flex; align-items: center; gap: 6px; }
 .card-icon { font-size: 14px; }
 .card-title { margin: 0; font-size: 17px; line-height: 1.35; }
 .card-summary { margin: 0; font-size: 13px; line-height: 1.6; color: #c9bfa6; flex: 1; }
-.card-ref { font-size: 12px; color: var(--muted); text-align: center; padding: 0 28px; }
-.card-person .card-ref { text-align: left; padding: 0; }
+.card-ref { font-size: 12px; color: var(--muted); }
 
 .card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
 .card-grid .card { cursor: pointer; }
