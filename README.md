@@ -24,7 +24,7 @@ npm run build
 
 ## 콘텐츠 채우기
 
-카드는 `src/content/cards.json`, 미션은 `src/content/missions.json`에 항목을 추가하면 된다. 없는 장은 기본 카드로 폴백되고, 미션 없는 장은 미션 버튼이 나타나지 않는다. `npm test`가 참조 무결성(장·도시·인물 id)을 검사한다.
+카드는 `src/content/cards.json`, 손으로 쓴 미션은 `src/content/missions.json`에 항목을 추가하면 된다. 암송(말씀 조각)·빈칸 미션은 `scripts/verse-picks.json`에 장별로 절과 시작/끝 단어를 지정하고 `node scripts/gen-missions.mjs`를 실행하면 본문에서 그대로 생성되어 `missions-generated.json`에 저장된다(오탈자 없음). 같은 id의 손 미션이 있으면 손 미션이 우선한다. 없는 장은 기본 카드로 폴백되고, 미션 없는 장은 미션 버튼이 나타나지 않는다. `npm test`가 참조 무결성(장·도시·인물 id)을 검사한다.
 
 ## 이미지 교체
 

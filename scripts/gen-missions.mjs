@@ -56,14 +56,16 @@ for (const [ref, pick] of Object.entries(picks)) {
       for (let tol = 1; tol <= 6 && pool.length < 3; tol++) pool = all.filter((w) => Math.abs(w.length - answer.length) <= tol)
       if (pool.length < 3) errors.push(`${ref} blank: not enough distractors for '${answer}'`)
       else {
-        let h = 0
-        for (const ch of ref + answer) h = (h * 31 + ch.charCodeAt(0)) >>> 0
-        const distractors = []
-        while (distractors.length < 3) {
-          h = (h * 1103515245 + 12345) >>> 0
-          const w = pool[h % pool.length]
-          if (!distractors.includes(w)) distractors.push(w)
-        }
+        let h = 2166136261
+        for (const ch of ref + answer) h = Math.imul(h ^ ch.charCodeAt(0), 16777619) >>> 0
+        // 결정적 셔플: 각 후보에 해시 점수를 매겨 정렬 후 앞 3개
+        const scored = pool.map((w, i) => {
+          let x = h
+          for (const ch of w) x = Math.imul(x ^ ch.charCodeAt(0), 16777619) >>> 0
+          return { w, x: (x ^ i) >>> 0 }
+        })
+        scored.sort((a, b) => a.x - b.x)
+        const distractors = scored.slice(0, 3).map((s) => s.w)
         const options = [...distractors]
         options.splice(h % 4, 0, answer)
         out.push({

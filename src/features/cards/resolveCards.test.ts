@@ -39,9 +39,10 @@ test('lamp fallback for chapters without cards', () => {
 
 test('cards unlock only when every mission of the chapter is cleared', () => {
   const read = { 'jhn:3': '2026-09-22T00:00:00Z', 'mat:10': '2026-09-21T00:00:00Z' }
-  // mat:10 has no mission → reading is enough; jhn:3 has missions → locked
-  expect(resolveCards(read, {}).map((e) => e.card.id)).toEqual(['lamp:mat:10'])
-  const all = Object.fromEntries(missionsForRef('jhn:3').map((m) => [m.id, { clearedAt: '2026-09-23T00:00:00Z', hintsUsed: 0 }]))
+  // 모든 장에 미션이 있으므로 읽기만으로는 카드가 열리지 않는다
+  expect(resolveCards(read, {})).toEqual([])
+  const done = (ref: string) => Object.fromEntries(missionsForRef(ref).map((m) => [m.id, { clearedAt: '2026-09-23T00:00:00Z', hintsUsed: 0 }]))
+  const all = { ...done('jhn:3'), ...done('mat:10') }
   const earned = resolveCards(read, all)
   expect(earned.map((e) => e.card.id)).toEqual(['lamp:mat:10', 'jhn:3:nicodemus', 'jhn:3:sosloved'])
   expect(earned[1].earnedAt).toBe('2026-09-23T00:00:00Z')

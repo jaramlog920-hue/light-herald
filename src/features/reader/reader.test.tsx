@@ -25,7 +25,8 @@ test('book list → chapter list → read → mark read → reward sheet with no
   expect(useProgress.getState().lastRef).toBe('mat:1')
 
   const sheet = screen.getByRole('dialog', { name: /기억의 조각/ })
-  expect(sheet).toHaveTextContent('예수 그리스도의 계보')
+  expect(sheet).toHaveTextContent('미션을 모두 완료하면')
+  expect(sheet).toHaveTextContent('마 1:23')
   await user.type(screen.getAllByLabelText(/묵상 한 줄/)[0], '임마누엘')
   await new Promise((r) => setTimeout(r, 500))
   expect(useProgress.getState().notes['mat:1']).toBe('임마누엘')

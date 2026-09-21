@@ -79,12 +79,12 @@ test('mission list shows lock state and reward sheet links to mission', async ()
   const user = userEvent.setup()
   useProgress.getState().markRead('jhn:3')
   at('/missions')
-  expect(screen.getByRole('link', { name: /^3장 · 말씀 조각 맞추기/ })).not.toHaveClass('locked')
+  expect(screen.getAllByRole('link', { name: /^3장 · 말씀 조각 맞추기/ })[0]).not.toHaveClass('locked')
   expect(screen.getByRole('link', { name: /🔒 16장 · 누가 이 말을/ })).toHaveClass('locked')
 
   at('/read/mat/16')
   await user.click(screen.getByRole('button', { name: '읽음' }))
-  expect(screen.getByRole('link', { name: /미션 해금/ })).toHaveAttribute('href', '/missions/mat:16:quiz')
+  expect(screen.getAllByRole('link', { name: /미션 해금/ })[0]).toHaveAttribute('href', '/missions/mat:16:quiz')
 })
 
 test('word puzzle shows gem message once', async () => {
