@@ -40,7 +40,7 @@ export function MissionPlay() {
     return (
       <main className="reader">
         <p>미션을 찾을 수 없습니다.</p>
-        <Link className="btn" to="/missions">
+        <Link className="btn btn-block" to="/missions">
           미션 목록
         </Link>
       </main>
@@ -61,7 +61,7 @@ export function MissionPlay() {
         <p className="muted">
           이 미션은 {book.name} {chapter}장을 읽으면 열립니다.
         </p>
-        <Link className="btn primary" to={`/read/${bookId}/${chapter}`}>
+        <Link className="btn primary btn-block" to={`/read/${bookId}/${chapter}`}>
           {book.name} {chapter}장 읽기
         </Link>
       </main>

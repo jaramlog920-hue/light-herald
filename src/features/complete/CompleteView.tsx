@@ -53,7 +53,7 @@ export function CompleteView() {
         <p>
           {total.read}/{total.total}장. 신약 27권을 모두 읽으면 이곳에 당신의 지도가 완성됩니다.
         </p>
-        <Link className="btn primary" to="/books">
+        <Link className="btn primary btn-block" to="/books">
           계속 읽기
         </Link>
       </main>

@@ -31,10 +31,12 @@ export function MapView() {
   const layer = { state, cities: CITIES, isNew }
   const [lb, lc] = (lastRef ?? 'mat:1').split(':')
 
-  // 처음 열면 예루살렘(오른쪽)이 보이도록
+  // 처음 열면 예루살렘(오른쪽)이 보이도록. 세로로 남으면 가운데 정렬
   useEffect(() => {
     const el = scroller.current
-    if (el) el.scrollLeft = el.scrollWidth - el.clientWidth
+    if (!el) return
+    el.scrollLeft = el.scrollWidth - el.clientWidth
+    el.scrollTop = (el.scrollHeight - el.clientHeight) / 2
   }, [])
 
   return (

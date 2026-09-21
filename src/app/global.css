@@ -12,7 +12,7 @@ html, body, #root { margin: 0; height: 100%; background: var(--bg); color: var(-
 button { font: inherit; cursor: pointer; }
 a { color: inherit; }
 
-.btn { flex: 1; padding: 14px; border-radius: 12px; border: 1px solid #333; background: var(--panel); color: var(--fg); text-align: center; text-decoration: none; font-weight: 600; }
+.btn { display: inline-block; flex: 1; padding: 14px; border-radius: 12px; border: 1px solid #333; background: var(--panel); color: var(--fg); text-align: center; text-decoration: none; font-weight: 600; }
 .btn.primary { background: var(--gold); color: #1a1400; border-color: var(--gold); font-weight: 700; }
 .btn.done { color: var(--gold); }
 .btn.ghost { flex: 0 0 auto; }
@@ -29,3 +29,4 @@ a { color: inherit; }
 :root[data-cycle='3'] .map-bg { filter: brightness(0.95) saturate(0.4); }
 .cycle-card { padding: 14px; border-radius: 12px; background: var(--panel); margin-bottom: 12px; }
 .cycle-card.current { border: 1px solid var(--gold); }
+.btn-block { display: block; margin-top: 12px; }
