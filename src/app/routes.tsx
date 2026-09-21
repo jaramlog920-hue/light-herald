@@ -9,6 +9,7 @@ import { CompleteView } from '../features/complete/CompleteView'
 import { MissionList } from '../features/missions/MissionList'
 import { MissionPlay } from '../features/missions/MissionPlay'
 import { CyclesView } from '../features/cycles/CyclesView'
+import { NotesView } from '../features/reader/NotesView'
 
 export function AppRoutes({ home }: { home: ReactNode }) {
   return (
@@ -23,6 +24,7 @@ export function AppRoutes({ home }: { home: ReactNode }) {
       <Route path="/missions" element={<MissionList />} />
       <Route path="/missions/:missionId" element={<MissionPlay />} />
       <Route path="/cycles" element={<CyclesView />} />
+      <Route path="/notes" element={<NotesView />} />
     </Routes>
   )
 }

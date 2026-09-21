@@ -60,7 +60,10 @@ export function CyclesView() {
             {state.cycle}회차 · {cycleTitle(state.cycle)}
           </strong>
           <div className="muted">
-            {total.read}/{total.total}장 · 묵상 {Object.values(state.notes).filter((t) => t.trim()).length}개
+            {total.read}/{total.total}장 · 묵상 {Object.values(state.notes).filter((t) => t.trim()).length}개 ·{' '}
+            <Link to="/notes" style={{ color: 'var(--gold)' }}>
+              모아보기 →
+            </Link>
           </div>
         </div>
         {complete ? (
