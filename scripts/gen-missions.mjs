@@ -43,8 +43,9 @@ for (const [ref, pick] of Object.entries(picks)) {
     }
   }
 
-  if (pick.blank) {
-    const [v, answer] = pick.blank
+  for (const key of ['blank', 'blank2']) {
+    if (!pick[key]) continue
+    const [v, answer] = pick[key]
     const ws = words(b, c, v)
     const idxs = ws.map((w, i) => (w === answer ? i : -1)).filter((i) => i >= 0)
     if (idxs.length !== 1) errors.push(`${ref} blank: '${answer}' appears ${idxs.length}x in verse ${v}: ${ws.join(' ')}`)
@@ -69,7 +70,7 @@ for (const [ref, pick] of Object.entries(picks)) {
         const options = [...distractors]
         options.splice(h % 4, 0, answer)
         out.push({
-          id: `${ref}:blank`, ref, type: 'blank', title: '빈칸 채우기',
+          id: `${ref}:${key}`, ref, type: 'blank', title: '빈칸 채우기',
           verseRef: `${abbr[b]} ${c}:${v}`, text, options, answer: options.indexOf(answer),
           hint: `'${answer[0]}'로 시작하는 ${answer.length}글자입니다.`, hintVerse: `${abbr[b]} ${c}:${v}`,
         })
