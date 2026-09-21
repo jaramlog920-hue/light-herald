@@ -12,6 +12,7 @@ import { NewJerusalemLayer } from './layers/NewJerusalemLayer'
 import { ProgressBar } from '../../shared/ProgressBar'
 import { CityPanel } from './CityPanel'
 import { APP_TITLE } from '../../app/branding'
+import { cycleTitle } from '../cycles/cycles'
 import './map.css'
 
 const MAP = mapJson as MapData
@@ -21,6 +22,7 @@ export function MapView() {
   const { state, newRefs } = useMapState()
   const isNew = (ref: string) => newRefs.has(ref)
   const lastRef = useProgress((s) => s.lastRef)
+  const cycle = useProgress((s) => s.cycle)
   const readChapters = useProgress((s) => s.readChapters)
   const total = selectTotalProgress({ readChapters })
   const scroller = useRef<HTMLDivElement>(null)
@@ -60,6 +62,9 @@ export function MapView() {
       </div>
       <header className="map-hud">
         <h1>{APP_TITLE}</h1>
+        <Link to="/cycles" className="hud-cycle">
+          {cycle}회차 · {cycleTitle(cycle)}
+        </Link>
         <ProgressBar {...total} />
       </header>
       <footer className="map-actions">

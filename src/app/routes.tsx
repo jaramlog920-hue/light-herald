@@ -8,6 +8,7 @@ import { PeopleGraph } from '../features/cards/PeopleGraph'
 import { CompleteView } from '../features/complete/CompleteView'
 import { MissionList } from '../features/missions/MissionList'
 import { MissionPlay } from '../features/missions/MissionPlay'
+import { CyclesView } from '../features/cycles/CyclesView'
 
 export function AppRoutes({ home }: { home: ReactNode }) {
   return (
@@ -21,6 +22,7 @@ export function AppRoutes({ home }: { home: ReactNode }) {
       <Route path="/complete" element={<CompleteView />} />
       <Route path="/missions" element={<MissionList />} />
       <Route path="/missions/:missionId" element={<MissionPlay />} />
+      <Route path="/cycles" element={<CyclesView />} />
     </Routes>
   )
 }
