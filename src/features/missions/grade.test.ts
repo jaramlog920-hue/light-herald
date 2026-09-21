@@ -1,4 +1,4 @@
-import { MISSIONS, grade, missionForRef, shuffled, rewardsGem } from './grade'
+import { MISSIONS, grade, getMission, shuffled, rewardsGem } from './grade'
 import { ALL_REFS } from '../../content/books'
 import map from '../../content/map.json'
 import type { MapData } from '../../content/types'
@@ -47,27 +47,27 @@ test('missions are valid and cover all seven types', () => {
 })
 
 test('grade each type', () => {
-  const quiz = missionForRef('mat:16')!
+  const quiz = getMission('mat:16:quiz')!
   expect(grade(quiz, { type: 'quiz', index: 2 })).toBe(true)
   expect(grade(quiz, { type: 'quiz', index: 0 })).toBe(false)
 
-  const det = missionForRef('mat:8')!
+  const det = getMission('mat:8:gospel-detective')!
   expect(grade(det, { type: 'gospel-detective', books: ['luk', 'mat', 'mrk'] })).toBe(true)
   expect(grade(det, { type: 'gospel-detective', books: ['mat'] })).toBe(false)
 
-  const voy = missionForRef('act:27')!
+  const voy = getMission('act:27:voyage')!
   expect(grade(voy, { type: 'voyage', order: ['caesarea', 'crete', 'malta', 'rome'] })).toBe(true)
   expect(grade(voy, { type: 'voyage', order: ['crete', 'caesarea', 'malta', 'rome'] })).toBe(false)
 
-  const del = missionForRef('rom:1')!
+  const del = getMission('rom:1:deliver')!
   expect(grade(del, { type: 'deliver', city: 'rome' })).toBe(true)
 
-  const wp = missionForRef('jhn:3')!
+  const wp = getMission('jhn:3:word-puzzle')!
   expect(grade(wp, { type: 'word-puzzle', words: wp.type === 'word-puzzle' ? wp.words : [] })).toBe(true)
   expect(rewardsGem(wp)).toBe(true)
   expect(rewardsGem(quiz)).toBe(false)
 
-  const ch = missionForRef('luk:10')!
+  const ch = getMission('luk:10:choice')!
   expect(grade(ch, { type: 'choice', index: 0 })).toBe(true)
   expect(grade(ch, { type: 'choice', index: 1 })).toBe(false)
   expect(grade(quiz, { type: 'choice', index: 2 })).toBe(false)

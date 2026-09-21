@@ -3,7 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
 import { App } from '../../app/App'
 import { useProgress } from '../../store/progress'
-import { missionForRef } from './grade'
+import { getMission } from './grade'
 
 beforeEach(() => {
   useProgress.setState(useProgress.getInitialState())
@@ -39,7 +39,7 @@ test('word puzzle rewards a gem; hint spends it', async () => {
   useProgress.getState().markRead('mat:5')
   useProgress.getState().markRead('mat:3')
   at('/missions/mat:5:word-puzzle')
-  const m = missionForRef('mat:5')!
+  const m = getMission('mat:5:word-puzzle')!
   if (m.type !== 'word-puzzle') throw new Error()
   for (const w of m.words) await user.click(screen.getByRole('button', { name: w }))
   await user.click(screen.getByRole('button', { name: '완성' }))
@@ -91,7 +91,7 @@ test('word puzzle shows gem message once', async () => {
   const user = userEvent.setup()
   useProgress.getState().markRead('mat:5')
   at('/missions/mat:5:word-puzzle')
-  const m = missionForRef('mat:5')!
+  const m = getMission('mat:5:word-puzzle')!
   if (m.type !== 'word-puzzle') throw new Error()
   for (const w of m.words) await user.click(screen.getByRole('button', { name: w }))
   await user.click(screen.getByRole('button', { name: '완성' }))

@@ -1,11 +1,13 @@
 import missionsJson from '../../content/missions.json'
 import hand2Json from '../../content/missions-hand-2.json'
 import hand3Json from '../../content/missions-hand-3.json'
+import hand4Json from '../../content/missions-hand-4.json'
+import hand5Json from '../../content/missions-hand-5.json'
 import generatedJson from '../../content/missions-generated.json'
 import { BOOKS, parseRef } from '../../content/books'
 import type { Mission } from '../../content/types'
 
-const hand = [...(missionsJson as Mission[]), ...(hand2Json as Mission[]), ...(hand3Json as Mission[])]
+const hand = [...(missionsJson as Mission[]), ...(hand2Json as Mission[]), ...(hand3Json as Mission[]), ...(hand4Json as Mission[]), ...(hand5Json as Mission[])]
 const handIds = new Set(hand.map((m) => m.id))
 // 손으로 쓴 미션이 같은 id를 가지면 생성본은 버린다
 const generated = (generatedJson as Mission[]).filter((m) => !handIds.has(m.id))
