@@ -10,6 +10,7 @@ import { FootprintLayer } from './layers/FootprintLayer'
 import { ChurchLayer } from './layers/ChurchLayer'
 import { NewJerusalemLayer } from './layers/NewJerusalemLayer'
 import { ProgressBar } from '../../shared/ProgressBar'
+import { APP_TITLE } from '../../app/branding'
 import './map.css'
 
 const MAP = mapJson as MapData
@@ -55,7 +56,7 @@ export function MapView() {
         </div>
       </div>
       <header className="map-hud">
-        <h1>빛의 전령</h1>
+        <h1>{APP_TITLE}</h1>
         <ProgressBar {...total} />
       </header>
       <footer className="map-actions">
