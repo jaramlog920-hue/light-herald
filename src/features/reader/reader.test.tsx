@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
 import { App } from '../../app/App'
 import { useProgress } from '../../store/progress'
+import { missionsForRef } from '../missions/grade'
 
 beforeEach(() => {
   useProgress.setState(useProgress.getInitialState())
@@ -32,17 +33,26 @@ test('book list → chapter list → read → mark read → reward sheet with no
   expect(screen.getByRole('button', { name: /읽었어요/ })).toBeDisabled()
 })
 
-test('already-read chapter shows record section', () => {
+test('already-read chapter shows record section; cards locked until missions done', () => {
   useProgress.getState().markRead('jhn:3')
   useProgress.getState().saveNote('jhn:3', '사랑')
-  render(
+  const { unmount } = render(
     <MemoryRouter initialEntries={['/read/jhn/3']}>
       <App />
     </MemoryRouter>,
   )
   expect(screen.getByText('이 장의 기록')).toBeInTheDocument()
-  expect(screen.getByText('니고데모')).toBeInTheDocument()
+  expect(screen.getByText(/미션을 모두 완료하면/)).toBeInTheDocument()
+  expect(screen.queryByText('니고데모')).not.toBeInTheDocument()
   expect(screen.getByLabelText(/묵상 한 줄/)).toHaveValue('사랑')
+  unmount()
+  for (const m of missionsForRef('jhn:3')) useProgress.getState().clearMission(m.id, 0)
+  render(
+    <MemoryRouter initialEntries={['/read/jhn/3']}>
+      <App />
+    </MemoryRouter>,
+  )
+  expect(screen.getByText('니고데모')).toBeInTheDocument()
 })
 
 test('last chapter of book links to next book', () => {

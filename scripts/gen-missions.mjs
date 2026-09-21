@@ -1,0 +1,83 @@
+// scripts/verse-picks.json 의 선택을 바탕으로 개역한글 본문에서 미션을 생성한다.
+//   "mat:1": { "wp": [절, "시작단어", "끝단어"], "blank": [절, "정답단어"] }
+//   wp 끝단어가 같은 절에 없으면 다음 절까지 이어 붙여 찾는다.
+//   blank 정답단어는 그 절에 정확히 한 번 나와야 한다.
+import { readFile, writeFile } from 'node:fs/promises'
+
+const root = new URL('../', import.meta.url)
+const bible = JSON.parse(await readFile(new URL('src/content/nt-krv.json', root), 'utf8'))
+const books = JSON.parse(await readFile(new URL('src/content/books.json', root), 'utf8'))
+const picks = JSON.parse(await readFile(new URL('scripts/verse-picks.json', root), 'utf8'))
+const abbr = Object.fromEntries(books.map((b) => [b.id, b.abbr]))
+
+const words = (b, c, v) => (bible[b][c - 1][v - 1] ?? '').split(/\s+/).filter(Boolean)
+const errors = []
+const out = []
+
+for (const [ref, pick] of Object.entries(picks)) {
+  const [b, cs] = ref.split(':')
+  const c = Number(cs)
+  if (!bible[b]?.[c - 1]) { errors.push(`${ref}: no such chapter`); continue }
+
+  if (pick.wp) {
+    const [v, start, end] = pick.wp
+    let ws = words(b, c, v)
+    let vr = `${abbr[b]} ${c}:${v}`
+    let si = ws.indexOf(start)
+    let ei = si >= 0 ? ws.indexOf(end, si) : -1
+    if (si >= 0 && ei < 0 && bible[b][c - 1][v]) {
+      ws = [...ws, ...words(b, c, v + 1)]
+      ei = ws.indexOf(end, si)
+      vr = `${abbr[b]} ${c}:${v}-${v + 1}`
+    }
+    if (si < 0 || ei < 0) errors.push(`${ref} wp: '${start}'..'${end}' not in verse ${v}: ${words(b, c, v).join(' ')}`)
+    else {
+      const slice = ws.slice(si, ei + 1)
+      if (slice.length < 5 || slice.length > 18) errors.push(`${ref} wp: length ${slice.length}`)
+      out.push({
+        id: `${ref}:word-puzzle`, ref, type: 'word-puzzle', title: '말씀 조각 맞추기',
+        verseRef: vr, words: slice,
+        hint: `'${slice[0]} ${slice[1]}'으로 시작합니다.`, hintVerse: vr,
+      })
+    }
+  }
+
+  if (pick.blank) {
+    const [v, answer] = pick.blank
+    const ws = words(b, c, v)
+    const idxs = ws.map((w, i) => (w === answer ? i : -1)).filter((i) => i >= 0)
+    if (idxs.length !== 1) errors.push(`${ref} blank: '${answer}' appears ${idxs.length}x in verse ${v}: ${ws.join(' ')}`)
+    else {
+      const text = ws.map((w, i) => (i === idxs[0] ? '____' : w)).join(' ')
+      // 오답: 같은 장에서 길이 비슷한 다른 단어 3개 (결정적 선택)
+      const pool = [...new Set(bible[b][c - 1].flatMap((vv) => vv.split(/\s+/)))]
+        .filter((w) => w !== answer && !ws.includes(w) && Math.abs(w.length - answer.length) <= 1 && w.length >= 2)
+      if (pool.length < 3) errors.push(`${ref} blank: not enough distractors for '${answer}'`)
+      else {
+        let h = 0
+        for (const ch of ref + answer) h = (h * 31 + ch.charCodeAt(0)) >>> 0
+        const distractors = []
+        while (distractors.length < 3) {
+          h = (h * 1103515245 + 12345) >>> 0
+          const w = pool[h % pool.length]
+          if (!distractors.includes(w)) distractors.push(w)
+        }
+        const options = [...distractors]
+        options.splice(h % 4, 0, answer)
+        out.push({
+          id: `${ref}:blank`, ref, type: 'blank', title: '빈칸 채우기',
+          verseRef: `${abbr[b]} ${c}:${v}`, text, options, answer: options.indexOf(answer),
+          hint: `'${answer[0]}'로 시작하는 ${answer.length}글자입니다.`, hintVerse: `${abbr[b]} ${c}:${v}`,
+        })
+      }
+    }
+  }
+}
+
+if (errors.length) {
+  console.error(errors.join('\n'))
+  process.exit(1)
+}
+await writeFile(new URL('src/content/missions-generated.json', root), JSON.stringify(out, null, 0).replace(/\},\{/g, '},\n{') + '\n', 'utf8')
+const wp = out.filter((m) => m.type === 'word-puzzle').length
+console.log(`generated ${out.length} (word-puzzle ${wp}, blank ${out.length - wp}) for ${Object.keys(picks).length} chapters`)

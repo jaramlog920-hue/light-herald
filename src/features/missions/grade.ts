@@ -1,17 +1,35 @@
 import missionsJson from '../../content/missions.json'
+import generatedJson from '../../content/missions-generated.json'
+import { BOOKS, parseRef } from '../../content/books'
 import type { Mission } from '../../content/types'
 
-export const MISSIONS: Mission[] = missionsJson as Mission[]
-const byRef = new Map<string, Mission>()
+const hand = missionsJson as Mission[]
+const handIds = new Set(hand.map((m) => m.id))
+// 손으로 쓴 미션이 같은 id를 가지면 생성본은 버린다
+const generated = (generatedJson as Mission[]).filter((m) => !handIds.has(m.id))
+const bookOrder = new Map(BOOKS.map((b, i) => [b.id, i]))
+const TYPE_ORDER = ['quiz', 'gospel-detective', 'voyage', 'deliver', 'choice', 'word-puzzle', 'blank']
+const refKey = (ref: string) => {
+  const { bookId, chapter } = parseRef(ref)
+  return (bookOrder.get(bookId) ?? 99) * 1000 + chapter
+}
+export const MISSIONS: Mission[] = [...hand, ...generated].sort(
+  (a, b) => refKey(a.ref) - refKey(b.ref) || TYPE_ORDER.indexOf(a.type) - TYPE_ORDER.indexOf(b.type),
+)
+const byRef = new Map<string, Mission[]>()
 const byId = new Map<string, Mission>()
 for (const m of MISSIONS) {
-  byRef.set(m.ref, m)
+  byRef.set(m.ref, [...(byRef.get(m.ref) ?? []), m])
   byId.set(m.id, m)
 }
 
-/** 장당 미션은 최대 하나 */
+/** 장에 딸린 미션 전부 (없으면 빈 배열) */
+export function missionsForRef(ref: string): Mission[] {
+  return byRef.get(ref) ?? []
+}
+/** 장의 대표 미션 (첫 번째) */
 export function missionForRef(ref: string): Mission | undefined {
-  return byRef.get(ref)
+  return byRef.get(ref)?.[0]
 }
 export function getMission(id: string): Mission | undefined {
   return byId.get(id)
@@ -24,6 +42,7 @@ export type Answer =
   | { type: 'deliver'; city: string }
   | { type: 'word-puzzle'; words: string[] }
   | { type: 'choice'; index: number }
+  | { type: 'blank'; index: number }
 
 const sameSet = (a: string[], b: string[]) => a.length === b.length && [...a].sort().every((x, i) => x === [...b].sort()[i])
 const sameSeq = (a: string[], b: string[]) => a.length === b.length && a.every((x, i) => x === b[i])
@@ -44,6 +63,8 @@ export function grade(mission: Mission, answer: Answer): boolean {
       return answer.type === 'word-puzzle' && sameSeq(answer.words, mission.words)
     case 'choice':
       return answer.type === 'choice' && mission.options[answer.index]?.right === true
+    case 'blank':
+      return answer.type === 'blank' && answer.index === mission.answer
   }
 }
 

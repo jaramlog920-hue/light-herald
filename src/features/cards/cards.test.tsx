@@ -3,6 +3,7 @@ import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router'
 import { App } from '../../app/App'
 import { useProgress } from '../../store/progress'
+import { missionsForRef } from '../missions/grade'
 
 beforeEach(() => {
   useProgress.setState(useProgress.getInitialState())
@@ -12,6 +13,7 @@ beforeEach(() => {
 test('gallery shows locked and earned cards, filter by tab, open detail', async () => {
   const user = userEvent.setup()
   useProgress.getState().markRead('jhn:3')
+  for (const m of missionsForRef('jhn:3')) useProgress.getState().clearMission(m.id, 0)
   render(
     <MemoryRouter initialEntries={['/cards']}>
       <App />
@@ -28,6 +30,7 @@ test('gallery shows locked and earned cards, filter by tab, open detail', async 
 test('people graph lights earned persons only', async () => {
   const user = userEvent.setup()
   useProgress.getState().markRead('act:9')
+  for (const m of missionsForRef('act:9')) useProgress.getState().clearMission(m.id, 0)
   render(
     <MemoryRouter initialEntries={['/people']}>
       <App />

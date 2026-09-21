@@ -63,7 +63,7 @@ export interface PeopleData {
   relations: Relation[]
 }
 
-export type MissionType = 'quiz' | 'gospel-detective' | 'voyage' | 'deliver' | 'word-puzzle' | 'choice'
+export type MissionType = 'quiz' | 'gospel-detective' | 'voyage' | 'deliver' | 'word-puzzle' | 'choice' | 'blank'
 
 export interface MissionBase {
   id: string
@@ -109,4 +109,12 @@ export interface ChoiceMission extends MissionBase {
   situation: string
   options: { text: string; right: boolean; feedback: string }[]
 }
-export type Mission = QuizMission | GospelDetectiveMission | VoyageMission | DeliverMission | WordPuzzleMission | ChoiceMission
+export interface BlankMission extends MissionBase {
+  type: 'blank'
+  verseRef: string
+  /** 빈칸은 '____' */
+  text: string
+  options: string[]
+  answer: number
+}
+export type Mission = QuizMission | GospelDetectiveMission | VoyageMission | DeliverMission | WordPuzzleMission | ChoiceMission | BlankMission

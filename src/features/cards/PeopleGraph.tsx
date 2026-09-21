@@ -13,7 +13,8 @@ const CY = H / 2
 /** 예수님을 중심에, 나머지 인물을 원형으로 배치한 관계도. 획득한 인물만 밝게 */
 export function PeopleGraph() {
   const readChapters = useProgress((s) => s.readChapters)
-  const earned = useMemo(() => earnedPersonIds(readChapters), [readChapters])
+  const missions = useProgress((s) => s.missions)
+  const earned = useMemo(() => earnedPersonIds(readChapters, missions), [readChapters, missions])
   const [sel, setSel] = useState<string | null>(null)
 
   const pos = useMemo(() => {

@@ -3,11 +3,11 @@ import { Link, useParams } from 'react-router'
 import { getBook, chapterRef, nextRef } from '../../content/books'
 import { getChapter } from '../../content/bible'
 import { useProgress } from '../../store/progress'
-import { cardsForRef } from '../cards/resolveCards'
+import { cardsForRef, isCardUnlocked } from '../cards/resolveCards'
 import { CardFace } from '../cards/CardFace'
 import { NoteBox } from './NoteBox'
 import { RewardSheet } from './RewardSheet'
-import { missionForRef } from '../missions/grade'
+import { missionsForRef } from '../missions/grade'
 import './reader.css'
 
 export function ChapterView() {
@@ -28,8 +28,9 @@ export function ChapterView() {
   }, [refId, setLastRef])
 
   const next = nextRef(bookId, ch)
-  const mission = missionForRef(refId)
-  const missionDone = useProgress((s) => (mission ? Boolean(s.missions[mission.id]) : false))
+  const missions = missionsForRef(refId)
+  const records = useProgress((s) => s.missions)
+  const cardOpen = isCardUnlocked(refId, useProgress((s) => s.readChapters), records)
   const nextTo = next ? `/read/${next.bookId}/${next.chapter}` : null
 
   const onMarkRead = () => {
@@ -57,17 +58,18 @@ export function ChapterView() {
       {readAt && (
         <section className="chapter-record">
           <h2>이 장의 기록</h2>
+          {!cardOpen && <p className="muted">아래 미션을 모두 완료하면 카드가 복원됩니다.</p>}
           <div className="card-grid">
             {cardsForRef(refId).map((c) => (
-              <CardFace key={c.id} card={c} compact />
+              <CardFace key={c.id} card={c} compact earned={cardOpen} />
             ))}
           </div>
           <NoteBox refId={refId} />
-          {mission && (
-            <Link className="btn mission-cta" to={`/missions/${mission.id}`}>
-              {missionDone ? '✓ ' : ''}미션: {mission.title}
+          {missions.map((m) => (
+            <Link key={m.id} className="btn mission-cta" to={`/missions/${m.id}`}>
+              {records[m.id] ? '✓ ' : ''}미션: {m.title}
             </Link>
-          )}
+          ))}
         </section>
       )}
       <footer className="reader-foot">

@@ -5,12 +5,15 @@ import { getMission, grade, rewardsGem, type Answer } from './grade'
 import { useProgress } from '../../store/progress'
 import { getBook, parseRef } from '../../content/books'
 import type { Mission } from '../../content/types'
+import { cardsForRef, isCardUnlocked } from '../cards/resolveCards'
+import { CardFace } from '../cards/CardFace'
 import { QuizPlay } from './types/QuizPlay'
 import { GospelDetectivePlay } from './types/GospelDetectivePlay'
 import { VoyagePlay } from './types/VoyagePlay'
 import { DeliverPlay } from './types/DeliverPlay'
 import { WordPuzzlePlay } from './types/WordPuzzlePlay'
 import { ChoicePlay } from './types/ChoicePlay'
+import { BlankPlay } from './types/BlankPlay'
 import '../reader/reader.css'
 import '../cards/cards.css'
 import './missions.css'
@@ -36,6 +39,9 @@ export function MissionPlay() {
   const [hintsUsed, setHintsUsed] = useState(0)
   const [attempt, setAttempt] = useState(0)
   const [gotGem, setGotGem] = useState(false)
+  const [restoredCard, setRestoredCard] = useState(false)
+  const readChapters = useProgress((s) => s.readChapters)
+  const allRecords = useProgress((s) => s.missions)
 
   if (!mission) {
     return (
@@ -74,6 +80,8 @@ export function MissionPlay() {
     const ok = grade(mission, answer)
     if (ok) {
       if (!record) {
+        const after = { ...allRecords, [mission.id]: { clearedAt: new Date().toISOString() } }
+        if (!isCardUnlocked(mission.ref, readChapters, allRecords) && isCardUnlocked(mission.ref, readChapters, after)) setRestoredCard(true)
         clearMission(mission.id, hintsUsed)
         if (rewardsGem(mission)) {
           addGem()
@@ -118,6 +126,7 @@ export function MissionPlay() {
         {mission.type === 'deliver' && <DeliverPlay mission={mission} {...play} />}
         {mission.type === 'word-puzzle' && <WordPuzzlePlay mission={mission} {...play} />}
         {mission.type === 'choice' && <ChoicePlay mission={mission} {...play} />}
+        {mission.type === 'blank' && <BlankPlay mission={mission} {...play} />}
       </section>
 
       {hintShown && (
@@ -129,6 +138,13 @@ export function MissionPlay() {
       {result === 'right' && (
         <motion.div className="result right" initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }} role="status">
           <strong>기록이 복원되었습니다.</strong>
+          {restoredCard && (
+            <div className="card-grid" style={{ marginTop: 10 }}>
+              {cardsForRef(mission.ref).map((c) => (
+                <CardFace key={c.id} card={c} compact />
+              ))}
+            </div>
+          )}
           {gotGem && <div>약속의 보석을 얻었습니다 💎 (보유 {gems}개)</div>}
           {!gotGem && rewardsGem(mission) && <div className="muted">이미 완료한 미션은 보석을 다시 주지 않습니다.</div>}
           {record && <div className="muted">완료 {record.clearedAt.slice(0, 10)}</div>}

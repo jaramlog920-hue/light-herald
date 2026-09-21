@@ -1,4 +1,5 @@
-import { CARDS, PEOPLE, cardsForRef, getCard, resolveCards, earnedPersonIds } from './resolveCards'
+import { CARDS, PEOPLE, cardsForRef, getCard, resolveCards, earnedPersonIds, isCardUnlocked } from './resolveCards'
+import { missionsForRef } from '../missions/grade'
 import { ALL_REFS } from '../../content/books'
 
 test('cards reference valid refs, unique ids, and known persons', () => {
@@ -36,8 +37,16 @@ test('lamp fallback for chapters without cards', () => {
   expect(getCard('nope')).toBeUndefined()
 })
 
-test('resolveCards derives from read chapters in canon order', () => {
-  const earned = resolveCards({ 'jhn:3': '2026-09-22T00:00:00Z', 'mat:10': '2026-09-21T00:00:00Z' })
+test('cards unlock only when every mission of the chapter is cleared', () => {
+  const read = { 'jhn:3': '2026-09-22T00:00:00Z', 'mat:10': '2026-09-21T00:00:00Z' }
+  // mat:10 has no mission → reading is enough; jhn:3 has missions → locked
+  expect(resolveCards(read, {}).map((e) => e.card.id)).toEqual(['lamp:mat:10'])
+  const all = Object.fromEntries(missionsForRef('jhn:3').map((m) => [m.id, { clearedAt: '2026-09-23T00:00:00Z', hintsUsed: 0 }]))
+  const earned = resolveCards(read, all)
   expect(earned.map((e) => e.card.id)).toEqual(['lamp:mat:10', 'jhn:3:nicodemus', 'jhn:3:sosloved'])
-  expect(earnedPersonIds({ 'jhn:3': 'x' })).toEqual(new Set(['nicodemus']))
+  expect(earned[1].earnedAt).toBe('2026-09-23T00:00:00Z')
+  expect(earnedPersonIds(read, all)).toEqual(new Set(['nicodemus']))
+  // 일부만 완료하면 잠김
+  const [first] = Object.keys(all)
+  expect(isCardUnlocked('jhn:3', read, { [first]: all[first] })).toBe(missionsForRef('jhn:3').length === 1)
 })

@@ -18,3 +18,4 @@
 .mission-list a.locked { opacity: 0.5; }
 .mission-list a.cleared { border-color: var(--gold); }
 .mission-list small { color: var(--muted); white-space: nowrap; }
+.blank { color: var(--gold); letter-spacing: 2px; }

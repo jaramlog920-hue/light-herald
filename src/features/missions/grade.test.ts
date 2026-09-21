@@ -12,8 +12,8 @@ test('missions are valid and cover all six types', () => {
   const types = new Set<string>()
   for (const m of MISSIONS) {
     expect(refs.has(m.ref)).toBe(true)
-    expect(seen.has(m.ref)).toBe(false) // 장당 하나
-    seen.add(m.ref)
+    expect(seen.has(m.id)).toBe(false)
+    seen.add(m.id)
     types.add(m.type)
     expect(m.hint.length).toBeGreaterThan(0)
     switch (m.type) {
@@ -35,6 +35,11 @@ test('missions are valid and cover all six types', () => {
         break
       case 'choice':
         expect(m.options.filter((o) => o.right)).toHaveLength(1)
+        break
+      case 'blank':
+        expect(m.text).toContain('____')
+        expect(m.options[m.answer]).toBeDefined()
+        expect(new Set(m.options).size).toBe(m.options.length)
         break
     }
   }

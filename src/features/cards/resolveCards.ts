@@ -2,6 +2,7 @@ import cardsJson from '../../content/cards.json'
 import peopleJson from '../../content/people.json'
 import { getBook, parseRef } from '../../content/books'
 import type { Card, PeopleData, Person } from '../../content/types'
+import { missionsForRef } from '../missions/grade'
 
 export const CARDS: Card[] = cardsJson as Card[]
 export const PEOPLE: PeopleData = peopleJson as PeopleData
@@ -41,16 +42,36 @@ export interface EarnedCard {
   earnedAt: string
 }
 
-/** 읽은 장에서 파생되는 획득 카드 목록 (성경 순서, 등불 폴백 포함) */
-export function resolveCards(readChapters: Record<string, string>): EarnedCard[] {
-  return Object.entries(readChapters)
-    .sort(([a], [b]) => refOrder(a) - refOrder(b))
-    .flatMap(([ref, earnedAt]) => cardsForRef(ref).map((card) => ({ card, earnedAt })))
+type MissionRecords = Record<string, { clearedAt: string }>
+
+/** 카드 복원 조건: 그 장의 미션을 전부 완료. 미션이 없는 장은 읽기만으로 */
+export function isCardUnlocked(ref: string, readChapters: Record<string, string>, missions: MissionRecords): boolean {
+  const ms = missionsForRef(ref)
+  if (ms.length === 0) return Boolean(readChapters[ref])
+  return ms.every((m) => missions[m.id])
 }
 
-export function earnedPersonIds(readChapters: Record<string, string>): Set<string> {
+/** 복원 시각: 마지막 미션 완료 시각, 미션 없는 장은 읽은 시각 */
+export function unlockedAt(ref: string, readChapters: Record<string, string>, missions: MissionRecords): string | undefined {
+  if (!isCardUnlocked(ref, readChapters, missions)) return undefined
+  const times = missionsForRef(ref).map((m) => missions[m.id]?.clearedAt).filter(Boolean) as string[]
+  return times.length ? times.sort().at(-1) : readChapters[ref]
+}
+
+/** 복원된 카드 목록 (성경 순서, 등불 폴백 포함) */
+export function resolveCards(readChapters: Record<string, string>, missions: MissionRecords): EarnedCard[] {
+  const refs = new Set([...Object.keys(readChapters), ...Object.keys(missions).map((id) => id.split(':').slice(0, 2).join(':'))])
+  return [...refs]
+    .filter((ref) => isCardUnlocked(ref, readChapters, missions))
+    .sort((a, b) => refOrder(a) - refOrder(b))
+    .flatMap((ref) => cardsForRef(ref).map((card) => ({ card, earnedAt: unlockedAt(ref, readChapters, missions)! })))
+}
+
+export function earnedPersonIds(readChapters: Record<string, string>, missions: MissionRecords): Set<string> {
   const ids = new Set<string>()
-  for (const ref of Object.keys(readChapters)) {
+  const refs = new Set([...Object.keys(readChapters), ...Object.keys(missions).map((id) => id.split(':').slice(0, 2).join(':'))])
+  for (const ref of refs) {
+    if (!isCardUnlocked(ref, readChapters, missions)) continue
     for (const c of cardsByRef.get(ref) ?? []) if (c.personId) ids.add(c.personId)
   }
   return ids

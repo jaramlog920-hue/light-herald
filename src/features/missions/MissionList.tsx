@@ -13,6 +13,7 @@ const TYPE_LABEL = {
   deliver: '편지 배달',
   'word-puzzle': '말씀 조각',
   choice: '선택의 순간',
+  blank: '빈칸 채우기',
 } as const
 
 export function MissionList() {
