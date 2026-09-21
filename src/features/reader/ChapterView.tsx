@@ -1,9 +1,12 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router'
 import { getBook, chapterRef, nextRef } from '../../content/books'
 import { getChapter } from '../../content/bible'
 import { useProgress } from '../../store/progress'
-import { MarkReadButton } from './MarkReadButton'
+import { cardsForRef } from '../cards/resolveCards'
+import { CardFace } from '../cards/CardFace'
+import { NoteBox } from './NoteBox'
+import { RewardSheet } from './RewardSheet'
 import './reader.css'
 
 export function ChapterView() {
@@ -13,11 +16,24 @@ export function ChapterView() {
   const refId = chapterRef(bookId, ch)
   const verses = getChapter(bookId, ch)
   const setLastRef = useProgress((s) => s.setLastRef)
+  const readAt = useProgress((s) => s.readChapters[refId])
+  const markRead = useProgress((s) => s.markRead)
+  const [showReward, setShowReward] = useState(false)
+
   useEffect(() => {
     setLastRef(refId)
+    setShowReward(false)
     window.scrollTo(0, 0)
   }, [refId, setLastRef])
+
   const next = nextRef(bookId, ch)
+  const nextTo = next ? `/read/${next.bookId}/${next.chapter}` : null
+
+  const onMarkRead = () => {
+    markRead(refId)
+    setShowReward(true)
+  }
+
   return (
     <main className="reader">
       <header className="reader-head">
@@ -35,10 +51,29 @@ export function ChapterView() {
           </p>
         ))}
       </article>
+      {readAt && (
+        <section className="chapter-record">
+          <h2>이 장의 기록</h2>
+          <div className="card-grid">
+            {cardsForRef(refId).map((c) => (
+              <CardFace key={c.id} card={c} compact />
+            ))}
+          </div>
+          <NoteBox refId={refId} />
+        </section>
+      )}
       <footer className="reader-foot">
-        <MarkReadButton refId={refId} />
-        {next && (
-          <Link className="btn" to={`/read/${next.bookId}/${next.chapter}`}>
+        {readAt ? (
+          <button className="btn done" disabled>
+            ✓ 읽었어요 · {readAt.slice(0, 10)}
+          </button>
+        ) : (
+          <button className="btn primary" onClick={onMarkRead}>
+            읽음
+          </button>
+        )}
+        {nextTo && (
+          <Link className="btn" to={nextTo}>
             다음 장 →
           </Link>
         )}
@@ -46,6 +81,7 @@ export function ChapterView() {
           지도
         </Link>
       </footer>
+      {showReward && <RewardSheet refId={refId} nextTo={nextTo} onClose={() => setShowReward(false)} />}
     </main>
   )
 }

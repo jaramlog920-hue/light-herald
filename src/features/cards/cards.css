@@ -1,0 +1,28 @@
+.card { --c: var(--gold); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: linear-gradient(160deg, #1b2134, #0f1320); border: 1.5px solid var(--c); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
+.card-event { --c: #e6b422; }
+.card-person { --c: #d8484f; }
+.card-word { --c: #9fc4e8; }
+.card-locked { --c: #3a3f52; opacity: 0.7; box-shadow: none; }
+.card-compact { min-height: 0; padding: 10px 12px; }
+.card-type { font-size: 11px; letter-spacing: 1px; color: var(--c); display: flex; align-items: center; gap: 6px; }
+.card-icon { font-size: 14px; }
+.card-title { margin: 0; font-size: 17px; line-height: 1.35; }
+.card-summary { margin: 0; font-size: 13px; line-height: 1.6; color: #c9bfa6; flex: 1; }
+.card-ref { font-size: 12px; color: var(--muted); }
+
+.card-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 10px; }
+.card-grid .card { cursor: pointer; }
+.tabs { display: flex; gap: 6px; margin: 8px 0 14px; }
+.tabs button { flex: 1; padding: 10px; border-radius: 10px; border: 1px solid #2a3044; background: var(--panel); color: var(--muted); }
+.tabs button.active { color: var(--gold); border-color: var(--gold); }
+
+.sheet-backdrop { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.6); z-index: 10; display: flex; align-items: flex-end; justify-content: center; }
+.sheet { width: 100%; max-width: 640px; max-height: 90dvh; overflow: auto; background: var(--bg); border-radius: 20px 20px 0 0; padding: 18px 16px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid #2a3044; }
+.sheet h2 { margin: 0 0 12px; font-size: 18px; color: var(--gold); text-align: center; }
+.sheet .card-grid { grid-template-columns: 1fr; }
+.sheet-actions { display: flex; gap: 8px; margin-top: 14px; }
+
+.note-box { margin-top: 14px; }
+.note-box label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 6px; }
+.note-box textarea { width: 100%; min-height: 64px; padding: 10px 12px; border-radius: 10px; border: 1px solid #2a3044; background: var(--panel); color: var(--fg); font: inherit; resize: vertical; }
+.note-saved { font-size: 12px; color: var(--muted); margin-top: 4px; }

@@ -9,7 +9,7 @@ beforeEach(() => {
   localStorage.clear()
 })
 
-test('book list → chapter list → read → mark read', async () => {
+test('book list → chapter list → read → mark read → reward sheet with note', async () => {
   const user = userEvent.setup()
   render(
     <MemoryRouter initialEntries={['/books']}>
@@ -22,8 +22,27 @@ test('book list → chapter list → read → mark read', async () => {
   await user.click(screen.getByRole('button', { name: '읽음' }))
   expect(useProgress.getState().readChapters['mat:1']).toBeTruthy()
   expect(useProgress.getState().lastRef).toBe('mat:1')
+
+  const sheet = screen.getByRole('dialog', { name: /기억의 조각/ })
+  expect(sheet).toHaveTextContent('예수 그리스도의 계보')
+  await user.type(screen.getAllByLabelText(/묵상 한 줄/)[0], '임마누엘')
+  await new Promise((r) => setTimeout(r, 500))
+  expect(useProgress.getState().notes['mat:1']).toBe('임마누엘')
+  expect(screen.getAllByRole('link', { name: /다음 장/ })[0]).toHaveAttribute('href', '/read/mat/2')
   expect(screen.getByRole('button', { name: /읽었어요/ })).toBeDisabled()
-  expect(screen.getByRole('link', { name: /다음 장/ })).toHaveAttribute('href', '/read/mat/2')
+})
+
+test('already-read chapter shows record section', () => {
+  useProgress.getState().markRead('jhn:3')
+  useProgress.getState().saveNote('jhn:3', '사랑')
+  render(
+    <MemoryRouter initialEntries={['/read/jhn/3']}>
+      <App />
+    </MemoryRouter>,
+  )
+  expect(screen.getByText('이 장의 기록')).toBeInTheDocument()
+  expect(screen.getByText('니고데모')).toBeInTheDocument()
+  expect(screen.getByLabelText(/묵상 한 줄/)).toHaveValue('사랑')
 })
 
 test('last chapter of book links to next book', () => {
