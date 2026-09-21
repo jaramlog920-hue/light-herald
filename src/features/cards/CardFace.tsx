@@ -14,7 +14,7 @@ export function CardFace({ card, earned = true, compact = false }: { card: Card;
         {TYPE_LABEL[card.type]}
       </div>
       <h3 className="card-title">{earned ? card.title : '???'}</h3>
-      {!compact && <p className="card-summary">{earned ? card.summary : '이 장을 읽으면 기록이 복원됩니다.'}</p>}
+      {!compact && <p className="card-summary">{earned ? card.summary : '이 장의 미션을 모두 완료하면 기록이 복원됩니다.'}</p>}
       <div className="card-ref">{card.verseRef}</div>
     </div>
   )
