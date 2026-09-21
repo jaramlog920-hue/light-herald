@@ -7,7 +7,7 @@
 .card-locked::before { filter: grayscale(1) brightness(0.5); }
 .card > * { position: relative; }
 .card-event { --c: #e6b422; }
-.card-person { --c: #a97bd6; }
+.card-person { --c: #8fae5a; }
 .card-word { --c: #9fc4e8; }
 .card-locked { --c: #3a3f52; opacity: 0.75; box-shadow: none; }
 .card-compact { min-height: 0; padding: 20px 26px 20px 38px; }
