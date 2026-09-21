@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['assets/map-bg.webp', 'apple-touch-icon.png'],
+      includeAssets: ['assets/*', 'apple-touch-icon.png'],
       manifest: {
         name: '복음의 전령: 땅 끝까지',
         short_name: '복음의 전령',

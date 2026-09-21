@@ -16,3 +16,4 @@
 .chapter-record h2 { margin: 0 0 10px; }
 .complete-title { text-align: center; font-size: 22px; line-height: 1.6; color: var(--gold); margin: 24px 0 8px; }
 .keepsake { width: 100%; border-radius: 12px; border: 1px solid #2a3044; margin: 12px 0; }
+.complete-herald { display: block; height: 200px; margin: 8px auto 0; filter: drop-shadow(0 0 20px rgba(230, 180, 34, 0.5)); }

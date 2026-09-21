@@ -60,6 +60,7 @@ export function MapView() {
           </svg>
         </div>
       </div>
+      <img src="/assets/herald.png" alt="" className="map-herald" draggable={false} />
       <header className="map-hud">
         <h1>{APP_TITLE}</h1>
         <Link to="/cycles" className="hud-cycle">

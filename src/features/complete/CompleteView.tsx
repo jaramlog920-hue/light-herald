@@ -70,6 +70,7 @@ export function CompleteView() {
           ← 지도
         </Link>
       </header>
+      <motion.img src="/assets/herald.png" alt="" className="complete-herald" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }} />
       <motion.h1 className="complete-title" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1.2 }}>
         복음은 예루살렘에서 시작되어,
         <br />

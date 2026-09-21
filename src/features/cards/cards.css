@@ -1,9 +1,14 @@
-.card { --c: var(--gold); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 14px; border-radius: 14px; background: linear-gradient(160deg, #1b2134, #0f1320); border: 1.5px solid var(--c); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
+.card { --c: var(--gold); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 22px 20px; border-radius: 14px; background: linear-gradient(160deg, #1b2134, #0f1320); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; overflow: hidden; }
+.card::before { content: ''; position: absolute; inset: 0; background: url('/assets/card-frame-event.png') center / 100% 100% no-repeat; pointer-events: none; }
+.card-person::before { background-image: url('/assets/card-frame-person.png'); }
+.card-word::before { background-image: url('/assets/card-frame-word.png'); }
+.card-locked::before { filter: grayscale(1) brightness(0.5); }
+.card > * { position: relative; }
 .card-event { --c: #e6b422; }
 .card-person { --c: #d8484f; }
 .card-word { --c: #9fc4e8; }
-.card-locked { --c: #3a3f52; opacity: 0.7; box-shadow: none; }
-.card-compact { min-height: 0; padding: 10px 12px; }
+.card-locked { --c: #3a3f52; opacity: 0.75; box-shadow: none; }
+.card-compact { min-height: 0; padding: 16px 16px; }
 .card-type { font-size: 11px; letter-spacing: 1px; color: var(--c); display: flex; align-items: center; gap: 6px; }
 .card-icon { font-size: 14px; }
 .card-title { margin: 0; font-size: 17px; line-height: 1.35; }
