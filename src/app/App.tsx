@@ -1,6 +1,6 @@
 import { AppRoutes } from './routes'
-import { BookList } from '../features/reader/BookList'
+import { MapView } from '../features/map/MapView'
 
 export function App() {
-  return <AppRoutes home={<BookList />} />
+  return <AppRoutes home={<MapView />} />
 }
