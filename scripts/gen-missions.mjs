@@ -25,10 +25,11 @@ for (const [ref, pick] of Object.entries(picks)) {
     let vr = `${abbr[b]} ${c}:${v}`
     let si = ws.indexOf(start)
     let ei = si >= 0 ? ws.indexOf(end, si) : -1
-    if (si >= 0 && ei < 0 && bible[b][c - 1][v]) {
-      ws = [...ws, ...words(b, c, v + 1)]
+    // 끝단어가 같은 절에 없으면 최대 두 절까지 이어 붙여 찾는다
+    for (let extra = 1; si >= 0 && ei < 0 && extra <= 2 && bible[b][c - 1][v - 1 + extra]; extra++) {
+      ws = [...ws, ...words(b, c, v + extra)]
       ei = ws.indexOf(end, si)
-      vr = `${abbr[b]} ${c}:${v}-${v + 1}`
+      vr = `${abbr[b]} ${c}:${v}-${v + extra}`
     }
     if (si < 0 || ei < 0) errors.push(`${ref} wp: '${start}'..'${end}' not in verse ${v}: ${words(b, c, v).join(' ')}`)
     else {
