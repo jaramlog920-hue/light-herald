@@ -8,7 +8,7 @@ export default defineConfig({
     react(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['assets/*', 'apple-touch-icon.png', 'favicon.ico', 'favicon-32.png', 'favicon-16.png'],
+      includeAssets: ['assets/*', 'apple-touch-icon.png', 'favicon.ico', 'favicon-32.png', 'favicon-16.png', 'favicon-48.png'],
       manifest: {
         name: '복음의 전령: 땅 끝까지',
         short_name: '복음의 전령',
