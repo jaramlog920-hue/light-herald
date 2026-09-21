@@ -1,0 +1,20 @@
+.mission-q { font-size: 17px; line-height: 1.7; margin: 8px 0 12px; }
+.option-list { list-style: none; padding: 0; margin: 0; }
+.option { display: block; width: 100%; text-align: left; padding: 14px; margin: 6px 0; border-radius: 12px; border: 1px solid #2a3044; background: var(--panel); color: var(--fg); }
+.option:disabled { opacity: 0.8; }
+.option.is-right { border-color: var(--gold); color: var(--gold); }
+.option.is-wrong { border-color: #d8484f; }
+.feedback { font-size: 13px; color: #c9bfa6; margin: 0 0 8px 6px; line-height: 1.6; }
+.chip-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 14px; }
+.chip { padding: 10px 14px; border-radius: 999px; border: 1px solid #2a3044; background: var(--panel); color: var(--fg); }
+.chip.on { border-color: var(--gold); color: var(--gold); }
+.route-line { min-height: 48px; padding: 12px; border-radius: 12px; background: #0f1320; border: 1px dashed #2a3044; line-height: 1.7; font-size: 15px; }
+.hint-box { margin-top: 14px; padding: 12px; border-radius: 10px; background: #1a1f33; border: 1px solid #3a4470; font-size: 14px; }
+.result { margin-top: 14px; padding: 14px; border-radius: 12px; line-height: 1.6; }
+.result.right { background: #1e2a1c; border: 1px solid #5c8a4a; }
+.result.wrong { background: #2a1e1e; border: 1px solid #8a4a4a; }
+.mission-list { list-style: none; padding: 0; margin: 0; }
+.mission-list a { display: flex; justify-content: space-between; align-items: center; gap: 8px; padding: 12px 14px; margin: 4px 0; background: var(--panel); border: 1px solid transparent; border-radius: 10px; text-decoration: none; }
+.mission-list a.locked { opacity: 0.5; }
+.mission-list a.cleared { border-color: var(--gold); }
+.mission-list small { color: var(--muted); white-space: nowrap; }
