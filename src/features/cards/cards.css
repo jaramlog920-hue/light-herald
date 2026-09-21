@@ -1,7 +1,8 @@
 .card { --c: var(--gold); --frame: url('/assets/card-frame-event.png'); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 26px 26px 22px; border-radius: 12px; background: linear-gradient(160deg, #1b2134, #0f1320); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
 /* 세로형 프레임(720×960)을 어떤 비율의 카드에도 맞추기: 모서리 장식은 원형 유지, 변만 늘어남 */
 .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; border-style: solid; border-width: 42px 35px; border-image: var(--frame) 210 175 round; }
-.card-person { --frame: url('/assets/card-frame-person.png'); }
+.card-person::before { display: none; }
+.card-person { border: 1.5px solid var(--c); padding: 14px 16px 12px; }
 .card-word { --frame: url('/assets/card-frame-word.png'); }
 .card-locked::before { filter: grayscale(1) brightness(0.5); }
 .card > * { position: relative; }
