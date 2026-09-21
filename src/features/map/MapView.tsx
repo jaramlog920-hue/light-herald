@@ -66,6 +66,9 @@ export function MapView() {
         <Link className="btn" to="/books">
           책 목록
         </Link>
+        <Link className="btn" to="/cards">
+          카드장
+        </Link>
       </footer>
     </main>
   )
