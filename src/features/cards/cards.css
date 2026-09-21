@@ -1,15 +1,8 @@
 .card { --c: var(--gold); --frame: url('/assets/card-frame-event.png'); position: relative; display: flex; flex-direction: column; gap: 6px; padding: 26px 26px 24px 38px; border-radius: 12px; background: linear-gradient(160deg, #1b2134, #0f1320); box-shadow: 0 0 18px -6px var(--c); min-height: 150px; }
 /* 세로형 프레임(720×960)을 어떤 비율의 카드에도 맞추기: 모서리 장식은 원형 유지, 변만 늘어남 */
 .card::before { content: ''; position: absolute; inset: 0; pointer-events: none; border-style: solid; border-width: 42px 35px; border-image: var(--frame) 210 175 round; }
-.card-person { --frame: url('/assets/card-frame-person.png'); }
-/* 인물 프레임은 모서리 장식이 커서(195px) 더 넓게 자르고, 변 가운데 다이아몬드는 따로 얹는다 */
-.card-person::before { border-width: 39px; border-image: var(--frame) 195 round; }
-.card-person::after { content: ''; position: absolute; inset: 0; pointer-events: none; background:
-  url('/assets/card-frame-person-diamond.png') top 5px center / 12px 13px no-repeat,
-  url('/assets/card-frame-person-diamond.png') bottom 5px center / 12px 13px no-repeat,
-  url('/assets/card-frame-person-diamond-v.png') left 0 center / 13px 12px no-repeat,
-  url('/assets/card-frame-person-diamond-v.png') right 0 center / 13px 12px no-repeat; }
-.card-locked.card-person::after { filter: grayscale(1) brightness(0.5); }
+.card-person::before { display: none; }
+.card-person { border: 1.5px solid var(--c); padding: 14px 16px 12px; }
 .card-word { --frame: url('/assets/card-frame-word.png'); }
 .card-locked::before { filter: grayscale(1) brightness(0.5); }
 .card > * { position: relative; }
