@@ -6,7 +6,7 @@ import type { MapData } from '../../content/types'
 const cityIds = new Set((map as MapData).cities.map((c) => c.id))
 const gospels = new Set(['mat', 'mrk', 'luk', 'jhn'])
 
-test('missions are valid and cover all six types', () => {
+test('missions are valid and cover all seven types', () => {
   const refs = new Set(ALL_REFS)
   const seen = new Set<string>()
   const types = new Set<string>()
@@ -43,7 +43,7 @@ test('missions are valid and cover all six types', () => {
         break
     }
   }
-  expect(types.size).toBe(6)
+  expect(types.size).toBe(7)
 })
 
 test('grade each type', () => {
