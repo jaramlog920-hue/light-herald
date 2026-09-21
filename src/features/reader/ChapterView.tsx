@@ -7,6 +7,7 @@ import { cardsForRef } from '../cards/resolveCards'
 import { CardFace } from '../cards/CardFace'
 import { NoteBox } from './NoteBox'
 import { RewardSheet } from './RewardSheet'
+import { missionForRef } from '../missions/grade'
 import './reader.css'
 
 export function ChapterView() {
@@ -27,6 +28,8 @@ export function ChapterView() {
   }, [refId, setLastRef])
 
   const next = nextRef(bookId, ch)
+  const mission = missionForRef(refId)
+  const missionDone = useProgress((s) => (mission ? Boolean(s.missions[mission.id]) : false))
   const nextTo = next ? `/read/${next.bookId}/${next.chapter}` : null
 
   const onMarkRead = () => {
@@ -60,6 +63,11 @@ export function ChapterView() {
             ))}
           </div>
           <NoteBox refId={refId} />
+          {mission && (
+            <Link className="btn mission-cta" to={`/missions/${mission.id}`}>
+              {missionDone ? '✓ ' : ''}미션: {mission.title}
+            </Link>
+          )}
         </section>
       )}
       <footer className="reader-foot">

@@ -1,6 +1,7 @@
 import { Link } from 'react-router'
 import { motion } from 'framer-motion'
 import { cardsForRef } from '../cards/resolveCards'
+import { missionForRef } from '../missions/grade'
 import { CardFace } from '../cards/CardFace'
 import { NoteBox } from './NoteBox'
 import '../cards/cards.css'
@@ -14,6 +15,7 @@ interface Props {
 /** "읽음" 직후 나타나는 보상 시트: 획득 카드 + 묵상 입력 */
 export function RewardSheet({ refId, nextTo, onClose }: Props) {
   const cards = cardsForRef(refId)
+  const mission = missionForRef(refId)
   return (
     <div className="sheet-backdrop" role="dialog" aria-label="기억의 조각 획득" onClick={onClose}>
       <motion.div
@@ -32,6 +34,11 @@ export function RewardSheet({ refId, nextTo, onClose }: Props) {
           ))}
         </div>
         <NoteBox refId={refId} />
+        {mission && (
+          <Link className="btn mission-cta" to={`/missions/${mission.id}`}>
+            미션 해금: {mission.title}
+          </Link>
+        )}
         <div className="sheet-actions">
           <Link className="btn" to="/">
             지도 보기

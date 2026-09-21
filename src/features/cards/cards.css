@@ -31,3 +31,4 @@
 .relation-list li { padding: 8px 12px; margin: 4px 0; background: var(--panel); border-radius: 8px; font-size: 14px; }
 .muted { color: var(--muted); font-size: 13px; margin: 4px 0; }
 .muted a { color: var(--gold); text-decoration: none; }
+.mission-cta { display: block; margin-top: 12px; }

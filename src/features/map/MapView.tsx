@@ -78,6 +78,9 @@ export function MapView() {
         <Link className="btn" to="/cards">
           카드장
         </Link>
+        <Link className="btn" to="/missions">
+          미션
+        </Link>
       </footer>
       {selected && CITIES.get(selected) && <CityPanel city={CITIES.get(selected)!} state={state} onClose={() => setSelected(null)} />}
     </main>
