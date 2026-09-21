@@ -1,0 +1,14 @@
+.reader { max-width: 640px; margin: 0 auto; padding: 16px 16px 96px; }
+.reader-head { position: sticky; top: 0; background: var(--bg); padding: 8px 0; z-index: 1; }
+.reader-head h1 { font-size: 20px; margin: 4px 0; }
+.reader h2 { font-size: 14px; color: var(--muted); margin: 20px 0 8px; letter-spacing: 1px; }
+.back { color: var(--muted); text-decoration: none; font-size: 14px; }
+.book-list { list-style: none; padding: 0; margin: 0 0 16px; }
+.book-list a { display: flex; justify-content: space-between; padding: 12px 14px; margin: 4px 0; background: var(--panel); border: 1px solid transparent; border-radius: 10px; text-decoration: none; }
+.book-list small { color: var(--muted); }
+.book-list a.done, .chapter-grid a.done { border-color: var(--gold); color: var(--gold); }
+.chapter-grid { list-style: none; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(56px, 1fr)); gap: 8px; }
+.chapter-grid a { display: block; text-align: center; padding: 14px 0; background: var(--panel); border: 1px solid transparent; border-radius: 10px; text-decoration: none; }
+.verses p { line-height: 1.85; font-size: 17px; margin: 0 0 8px; }
+.verses sup { color: var(--gold); font-size: 11px; margin-right: 4px; }
+.reader-foot { position: fixed; left: 0; right: 0; bottom: 0; display: flex; gap: 8px; padding: 12px 16px calc(12px + env(safe-area-inset-bottom)); background: var(--bg); border-top: 1px solid #222; }

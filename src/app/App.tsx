@@ -1,3 +1,6 @@
+import { AppRoutes } from './routes'
+import { BookList } from '../features/reader/BookList'
+
 export function App() {
-  return <h1>빛의 전령</h1>
+  return <AppRoutes home={<BookList />} />
 }

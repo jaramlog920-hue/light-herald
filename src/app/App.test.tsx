@@ -4,5 +4,5 @@ import { App } from './App'
 
 test('renders app title', () => {
   render(<MemoryRouter><App /></MemoryRouter>)
-  expect(screen.getByRole('heading', { name: /빛의 전령/ })).toBeInTheDocument()
+  expect(screen.getByRole('heading', { level: 1 })).toBeInTheDocument()
 })
