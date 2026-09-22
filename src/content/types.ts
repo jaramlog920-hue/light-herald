@@ -14,6 +14,8 @@ export interface MapCity {
   name: string
   x: number
   y: number
+  /** 이름표를 점 기준 어느 쪽에 둘지 (겹침 방지). 기본은 위 */
+  label?: 'top' | 'bottom' | 'left' | 'right'
 }
 
 export interface MapRoute {

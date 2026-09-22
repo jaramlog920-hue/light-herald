@@ -28,7 +28,13 @@ export function CityLayer({ state, cities, onSelect }: LayerProps & { onSelect?:
               />
             )}
             <circle r={lit ? 6 : 3.5} fill={lit ? 'var(--gold)' : '#3a3a48'} />
-            <text y={-14} textAnchor="middle" fontSize={14} fill={lit ? 'var(--fg)' : '#55556a'}>
+            <text
+              x={c.label === 'left' ? -12 : c.label === 'right' ? 12 : 0}
+              y={c.label === 'bottom' ? 24 : c.label === 'left' || c.label === 'right' ? 5 : -14}
+              textAnchor={c.label === 'left' ? 'end' : c.label === 'right' ? 'start' : 'middle'}
+              fontSize={14}
+              fill={lit ? 'var(--fg)' : '#55556a'}
+            >
               {c.name}
             </text>
           </g>

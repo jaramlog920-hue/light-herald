@@ -12,9 +12,10 @@ test('initial: only jerusalem lit', () => {
 
 test('acts 8 spreads to samaria', () => {
   const s = resolveMap(new Set(['act:2', 'act:5', 'act:8']))
+  expect(s.litCities.has('judea')).toBe(true)
   expect(s.litCities.has('samaria')).toBe(true)
   expect(s.litCities.has('rome')).toBe(false)
-  expect(s.triggeredRefs).toEqual(['act:2', 'act:5', 'act:8'])
+  expect(s.triggeredRefs).toEqual(['act:2', 'act:8'])
 })
 
 test('reading all of acts lights rome', () => {

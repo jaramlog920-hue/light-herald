@@ -4,37 +4,43 @@
       "id": "jerusalem",
       "name": "예루살렘",
       "x": 1295,
-      "y": 605
+      "y": 605,
+      "label": "right"
     },
     {
       "id": "judea",
       "name": "유대",
       "x": 1288,
-      "y": 668
+      "y": 668,
+      "label": "bottom"
     },
     {
       "id": "galilee",
       "name": "갈릴리",
       "x": 1324,
-      "y": 526
+      "y": 526,
+      "label": "right"
     },
     {
       "id": "samaria",
       "name": "사마리아",
       "x": 1302,
-      "y": 560
+      "y": 560,
+      "label": "left"
     },
     {
       "id": "caesarea",
       "name": "가이사랴",
       "x": 1238,
-      "y": 596
+      "y": 596,
+      "label": "left"
     },
     {
       "id": "damascus",
       "name": "다메섹",
       "x": 1365,
-      "y": 495
+      "y": 495,
+      "label": "right"
     },
     {
       "id": "antioch",
@@ -58,43 +64,50 @@
       "id": "colossae",
       "name": "골로새",
       "x": 968,
-      "y": 425
+      "y": 425,
+      "label": "right"
     },
     {
       "id": "ephesus",
       "name": "에베소",
       "x": 905,
-      "y": 398
+      "y": 398,
+      "label": "top"
     },
     {
       "id": "patmos",
       "name": "밧모",
       "x": 862,
-      "y": 452
+      "y": 452,
+      "label": "bottom"
     },
     {
       "id": "philippi",
       "name": "빌립보",
       "x": 772,
-      "y": 294
+      "y": 294,
+      "label": "top"
     },
     {
       "id": "thessalonica",
       "name": "데살로니가",
       "x": 728,
-      "y": 312
+      "y": 312,
+      "label": "bottom"
     },
     {
       "id": "athens",
       "name": "아덴",
       "x": 728,
-      "y": 428
+      "y": 428,
+      "label": "bottom"
     },
     {
       "id": "corinth",
       "name": "고린도",
       "x": 690,
-      "y": 405
+      "y": 405,
+      "label": "top"
     },
     {
       "id": "crete",
