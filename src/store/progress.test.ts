@@ -74,3 +74,13 @@ test('importState merges union with earliest date and incoming notes', () => {
   expect(s.notes['mat:1']).toBe('theirs')
   expect(s.gems).toBe(3)
 })
+
+test('bookmark cap', async () => {
+  const { MAX_BOOKMARKS } = await import('./progress')
+  const s = useProgress.getState()
+  for (let i = 1; i <= MAX_BOOKMARKS; i++) expect(s.setBookmark('mat:1', i, '')).toBe(true)
+  expect(useProgress.getState().setBookmark('mat:2', 1, '')).toBe(false)
+  // 이미 있는 북마크의 메모 수정은 상한과 무관
+  expect(useProgress.getState().setBookmark('mat:1', 1, '수정')).toBe(true)
+  expect(useProgress.getState().bookmarks['mat:1:1'].memo).toBe('수정')
+})

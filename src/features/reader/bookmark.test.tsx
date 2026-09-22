@@ -54,7 +54,7 @@ test('bookmarks survive next cycle, list links with ?v=, delete and clear all', 
   expect(Object.keys(useProgress.getState().bookmarks)).toHaveLength(2)
 
   at('/cycles')
-  expect(screen.getByText(/북마크 · 2개/)).toBeInTheDocument()
+  expect(screen.getByText('북마크 · 2/500개')).toBeInTheDocument()
   const links = screen.getAllByRole('link', { name: /🔖/ })
   expect(links[0]).toHaveAttribute('href', '/read/mat/5?v=3')
   expect(links[1]).toHaveAttribute('href', '/read/jhn/3?v=16')

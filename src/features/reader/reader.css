@@ -43,3 +43,4 @@
 .book-figure img { width: 100%; border-radius: 12px; display: block; }
 .book-figure figcaption { text-align: center; color: var(--gold); margin: 10px 0 2px; font-weight: 600; }
 .book-figure .btn { width: 100%; }
+.bookmark-count { font-size: 12px; margin: 8px 0 0; text-align: right; }

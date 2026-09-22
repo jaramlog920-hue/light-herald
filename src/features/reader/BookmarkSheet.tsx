@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { useProgress, bookmarkKey } from '../../store/progress'
+import { useProgress, bookmarkKey, MAX_BOOKMARKS } from '../../store/progress'
 import { getBook, parseRef } from '../../content/books'
 import '../cards/cards.css'
 
@@ -17,13 +17,14 @@ export function BookmarkSheet({ refId, verse, text, onClose }: Props) {
   const existing = useProgress((s) => s.bookmarks[key])
   const setBookmark = useProgress((s) => s.setBookmark)
   const removeBookmark = useProgress((s) => s.removeBookmark)
+  const count = useProgress((s) => Object.keys(s.bookmarks).length)
+  const full = !existing && count >= MAX_BOOKMARKS
   const [memo, setMemo] = useState(existing?.memo ?? '')
   const { bookId, chapter } = parseRef(refId)
   const label = `${getBook(bookId).name} ${chapter}:${verse}`
 
   const onSave = () => {
-    setBookmark(refId, verse, memo.trim())
-    onClose()
+    if (setBookmark(refId, verse, memo.trim())) onClose()
   }
   const onRemove = () => {
     removeBookmark(key)
@@ -52,6 +53,9 @@ export function BookmarkSheet({ refId, verse, text, onClose }: Props) {
             onChange={(e) => setMemo(e.target.value)}
           />
         </div>
+        <p className="muted bookmark-count" role="status">
+          {full ? `북마크가 가득 찼습니다 (${MAX_BOOKMARKS}개). 회독 화면에서 정리해 주세요.` : `북마크 ${count}/${MAX_BOOKMARKS}`}
+        </p>
         <div className="sheet-actions">
           {existing && (
             <button className="btn" onClick={onRemove}>
@@ -61,7 +65,7 @@ export function BookmarkSheet({ refId, verse, text, onClose }: Props) {
           <button className="btn" onClick={onClose}>
             취소
           </button>
-          <button className="btn primary" onClick={onSave}>
+          <button className="btn primary" onClick={onSave} disabled={full}>
             {existing ? '저장' : '북마크'}
           </button>
         </div>

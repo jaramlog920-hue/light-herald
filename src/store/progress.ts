@@ -19,6 +19,9 @@ export interface Bookmark {
   createdAt: string
 }
 
+/** 북마크 상한 — localStorage(약 5MB) 안에서 넉넉한 수 */
+export const MAX_BOOKMARKS = 500
+
 /** 북마크 키: "book:chapter:verse" */
 export const bookmarkKey = (ref: string, verse: number) => `${ref}:${verse}`
 
@@ -47,8 +50,8 @@ export interface ProgressState {
   spendGem: () => boolean
   /** 260장 완료 시에만 다음 회독 시작. 현재 기록은 history로 이동 */
   startNextCycle: () => boolean
-  /** 북마크 저장(없으면 생성, 있으면 메모만 갱신) */
-  setBookmark: (ref: string, verse: number, memo: string) => void
+  /** 북마크 저장(없으면 생성, 있으면 메모만 갱신). 상한에 걸리면 false */
+  setBookmark: (ref: string, verse: number, memo: string) => boolean
   removeBookmark: (key: string) => void
   clearBookmarks: () => void
   /** JSON 백업 병합: 읽은 장은 합집합(이른 날짜 우선), 묵상은 가져온 쪽 우선 */
@@ -95,12 +98,13 @@ export const useProgress = create<ProgressState>()(
         set({ cycle: s.cycle + 1, readChapters: {}, notes: {}, lastRef: null, seenMapRefs: [], history: [...s.history, record] })
         return true
       },
-      setBookmark: (ref, verse, memo) =>
-        set((s) => {
-          const key = bookmarkKey(ref, verse)
-          const prev = s.bookmarks[key]
-          return { bookmarks: { ...s.bookmarks, [key]: { memo, createdAt: prev?.createdAt ?? new Date().toISOString() } } }
-        }),
+      setBookmark: (ref, verse, memo) => {
+        const key = bookmarkKey(ref, verse)
+        const prev = get().bookmarks[key]
+        if (!prev && Object.keys(get().bookmarks).length >= MAX_BOOKMARKS) return false
+        set((s) => ({ bookmarks: { ...s.bookmarks, [key]: { memo, createdAt: prev?.createdAt ?? new Date().toISOString() } } }))
+        return true
+      },
       removeBookmark: (key) =>
         set((s) => {
           const next = { ...s.bookmarks }

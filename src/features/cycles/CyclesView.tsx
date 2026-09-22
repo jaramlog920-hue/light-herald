@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import { Link } from 'react-router'
-import { useProgress, selectTotalProgress, exportState, type PersistedShape } from '../../store/progress'
+import { useProgress, selectTotalProgress, exportState, MAX_BOOKMARKS, type PersistedShape } from '../../store/progress'
 import { cycleTitle } from './cycles'
 import { APP_TITLE } from '../../app/branding'
 import { BookmarkList } from '../reader/BookmarkList'
@@ -89,7 +89,7 @@ export function CyclesView() {
       </section>
 
       <section>
-        <h2>북마크 · {Object.keys(state.bookmarks).length}개</h2>
+        <h2>북마크 · {Object.keys(state.bookmarks).length}/{MAX_BOOKMARKS}개</h2>
         <p className="muted">회독이 바뀌어도 북마크는 그대로 남습니다. 눌러서 구절로 바로 갑니다.</p>
         <BookmarkList />
       </section>
