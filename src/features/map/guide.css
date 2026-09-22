@@ -5,6 +5,6 @@
 .guide-steps li { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--panel); border-radius: 10px; }
 .guide-steps strong { display: block; font-size: 14px; margin-bottom: 2px; }
 .guide-steps p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--muted); }
-.guide-icon { font-size: 20px; line-height: 1.2; flex: 0 0 auto; }
+.guide-num { flex: 0 0 22px; height: 22px; border-radius: 50%; border: 1px solid var(--gold); color: var(--gold); font-size: 12px; font-weight: 700; display: flex; align-items: center; justify-content: center; margin-top: 1px; }
 .guide-install { font-size: 12px; line-height: 1.6; margin: 12px 0 0; }
 .sheet.guide .btn-block { width: 100%; }
