@@ -81,7 +81,7 @@ export function MapView() {
           </Link>
         )}
         <Link className="btn" to="/books">
-          책 목록
+          책목록
         </Link>
         <Link className="btn" to="/cards">
           카드장
