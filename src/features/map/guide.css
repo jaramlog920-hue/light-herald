@@ -1,4 +1,4 @@
-.hud-help { position: absolute; top: 12px; right: 16px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gold); background: rgba(5, 7, 13, 0.7); color: var(--gold); font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; pointer-events: auto; padding: 0; }
+.hud-help { position: absolute; top: 14px; right: 16px; width: 21px; height: 21px; border-radius: 50%; border: 1px solid var(--gold); background: rgba(5, 7, 13, 0.7); color: var(--gold); font-weight: 700; font-size: 11px; display: flex; align-items: center; justify-content: center; pointer-events: auto; padding: 0; }
 .sheet.guide h2 { font-size: 17px; }
 .guide-lead { text-align: center; margin: -4px 0 12px; font-size: 14px; }
 .guide-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
