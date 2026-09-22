@@ -48,7 +48,7 @@ test('word puzzle rewards a gem; hint spends it', async () => {
   // 힌트는 보석을 소모한다
   at('/missions/mat:3:quiz')
   await user.click(screen.getAllByRole('button', { name: /힌트/ })[0])
-  expect(screen.getByRole('note')).toHaveTextContent('낙타털')
+  expect(screen.getByRole('note')).toHaveTextContent('약대')
   expect(useProgress.getState().gems).toBe(0)
 })
 

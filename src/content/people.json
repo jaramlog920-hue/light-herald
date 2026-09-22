@@ -18,22 +18,22 @@
     {
       "id": "john-baptist",
       "name": "세례 요한",
-      "role": "길을 예비한 자"
+      "role": "주의 길을 예비한 자"
     },
     {
       "id": "peter",
       "name": "베드로",
-      "role": "열두 제자, 반석"
+      "role": "시몬 베드로, 열두 제자"
     },
     {
       "id": "john",
       "name": "요한",
-      "role": "사랑하는 제자"
+      "role": "세베대의 아들, 야고보의 형제"
     },
     {
       "id": "james",
-      "name": "야고보",
-      "role": "요한의 형제"
+      "name": "야고보(세베대의 아들)",
+      "role": "세베대의 아들, 요한의 형제"
     },
     {
       "id": "andrew",
@@ -43,27 +43,27 @@
     {
       "id": "matthew",
       "name": "마태",
-      "role": "세리 출신 제자"
+      "role": "세관에 앉았던 제자"
     },
     {
       "id": "thomas",
       "name": "도마",
-      "role": "의심하다 고백한 제자"
+      "role": "'나의 주시며 나의 하나님' 고백한 제자"
     },
     {
       "id": "judas",
       "name": "가룟 유다",
-      "role": "예수를 판 자"
+      "role": "예수를 넘겨준 가룟 유다"
     },
     {
       "id": "nicodemus",
       "name": "니고데모",
-      "role": "밤에 찾아온 바리새인"
+      "role": "밤에 찾아온 유대인의 관원"
     },
     {
       "id": "martha",
       "name": "마르다",
-      "role": "베다니의 자매"
+      "role": "베다니의 여인, 나사로의 누이"
     },
     {
       "id": "lazarus",
@@ -83,17 +83,17 @@
     {
       "id": "mary-magdalene",
       "name": "막달라 마리아",
-      "role": "부활의 첫 증인"
+      "role": "무덤에서 부활하신 주를 만난 여인"
     },
     {
       "id": "stephen",
       "name": "스데반",
-      "role": "첫 순교자"
+      "role": "믿음과 성령이 충만한 일곱 중 하나"
     },
     {
       "id": "philip",
       "name": "빌립",
-      "role": "전도자"
+      "role": "일곱 중 하나인 전도자 (사도 빌립과 다른 사람)"
     },
     {
       "id": "paul",
@@ -103,7 +103,7 @@
     {
       "id": "barnabas",
       "name": "바나바",
-      "role": "위로의 아들"
+      "role": "착한 사람이요 성령과 믿음이 충만한 자"
     },
     {
       "id": "cornelius",
@@ -118,52 +118,52 @@
     {
       "id": "timothy",
       "name": "디모데",
-      "role": "믿음의 아들"
+      "role": "믿음 안에서 참 아들"
     },
     {
       "id": "lydia",
       "name": "루디아",
-      "role": "빌립보 첫 신자"
+      "role": "두아디라의 자주 장사"
     },
     {
       "id": "priscilla-aquila",
       "name": "브리스길라와 아굴라",
-      "role": "천막 만드는 부부"
+      "role": "장막 만드는 부부"
     },
     {
       "id": "apollos",
       "name": "아볼로",
-      "role": "성경에 능한 자"
+      "role": "학문이 많고 성경에 능한 자"
     },
     {
       "id": "luke",
       "name": "누가",
-      "role": "의사, 기록자"
+      "role": "사랑을 받는 의원"
     },
     {
       "id": "mark",
       "name": "마가",
-      "role": "마가복음의 기록자로 전해짐"
+      "role": "바나바의 사촌이자 바울의 동역자"
     },
     {
       "id": "titus",
       "name": "디도",
-      "role": "그레데의 목회자"
+      "role": "바울의 참 아들, 그레데에 남겨진 자"
     },
     {
       "id": "onesimus",
       "name": "오네시모",
-      "role": "돌아온 종"
+      "role": "빌레몬에게 돌려보내진 종, 사랑받는 형제"
     },
     {
       "id": "philemon",
       "name": "빌레몬",
-      "role": "골로새의 형제"
+      "role": "오네시모를 받아들이도록 부탁받은 골로새 교회의 성도"
     },
     {
       "id": "james-lord",
       "name": "야고보(주의 형제)",
-      "role": "예루살렘 교회 지도자"
+      "role": "주의 형제 야고보, 예루살렘 교회의 지도자"
     }
   ],
   "relations": [
@@ -210,12 +210,12 @@
     {
       "from": "thomas",
       "to": "jesus",
-      "label": "나의 주, 나의 하나님"
+      "label": "'나의 주시며 나의 하나님이시니이다'"
     },
     {
       "from": "judas",
       "to": "jesus",
-      "label": "배반"
+      "label": "은 삼십에 넘김"
     },
     {
       "from": "nicodemus",
@@ -225,7 +225,7 @@
     {
       "from": "martha",
       "to": "lazarus",
-      "label": "남매"
+      "label": "누이와 오라비"
     },
     {
       "from": "jesus",
@@ -245,12 +245,12 @@
     {
       "from": "mary-magdalene",
       "to": "jesus",
-      "label": "부활 목격"
+      "label": "부활하신 주를 봄"
     },
     {
       "from": "james-lord",
       "to": "jesus",
-      "label": "형제"
+      "label": "주의 형제"
     },
     {
       "from": "paul",
@@ -265,7 +265,7 @@
     {
       "from": "barnabas",
       "to": "mark",
-      "label": "생질 (골 4:10)"
+      "label": "생질 곧 사촌 (골 4:10)"
     },
     {
       "from": "peter",
@@ -275,7 +275,7 @@
     {
       "from": "philip",
       "to": "stephen",
-      "label": "일곱 집사"
+      "label": "함께 택함 받은 일곱"
     },
     {
       "from": "silas",
@@ -285,12 +285,12 @@
     {
       "from": "timothy",
       "to": "paul",
-      "label": "믿음의 아들"
+      "label": "믿음 안에서 참 아들"
     },
     {
       "from": "lydia",
       "to": "paul",
-      "label": "집을 엶"
+      "label": "집으로 영접"
     },
     {
       "from": "priscilla-aquila",
@@ -300,12 +300,12 @@
     {
       "from": "priscilla-aquila",
       "to": "apollos",
-      "label": "가르침"
+      "label": "하나님의 도를 더 자세히 풀어 이름"
     },
     {
       "from": "luke",
       "to": "paul",
-      "label": "동행"
+      "label": "동역 (몬 1:24)"
     },
     {
       "from": "mark",

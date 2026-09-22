@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
-    "build:bible": "node scripts/build-bible.mjs"
+    "build:bible": "node scripts/build-bible.mjs",
+    "verify": "node scripts/verify-missions.mjs && node scripts/verify-cards.mjs && node scripts/verify-generated.mjs"
   },
   "dependencies": {
     "framer-motion": "^13.4.0",
