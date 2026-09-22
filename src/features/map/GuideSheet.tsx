@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { APP_TITLE, APP_SUBTITLE } from '../../app/branding'
+import { useInstallPrompt, isStandalone } from '../../app/install'
 import '../cards/cards.css'
 import './guide.css'
 
@@ -16,6 +17,7 @@ const STEPS: { title: string; body: string }[] = [
 
 /** 상단 (?)로 여는 사용 안내 */
 export function GuideSheet({ onClose }: { onClose: () => void }) {
+  const { canInstall, install } = useInstallPrompt()
   return (
     <div className="sheet-backdrop" role="dialog" aria-label="사용 안내" onClick={onClose}>
       <motion.div
@@ -42,9 +44,16 @@ export function GuideSheet({ onClose }: { onClose: () => void }) {
             </li>
           ))}
         </ol>
-        <p className="muted guide-install">
-          홈 화면에 앱처럼 설치: 안드로이드는 크롬 메뉴 → "홈 화면에 추가", 아이폰은 사파리 공유 → "홈 화면에 추가". 카카오톡 안에서 열렸다면 먼저 "브라우저로 열기"를 눌러 주세요.
-        </p>
+        {canInstall && (
+          <button className="btn btn-block" onClick={() => void install()}>
+            앱으로 설치하기
+          </button>
+        )}
+        {!isStandalone() && (
+          <p className="muted guide-install">
+            홈 화면에 앱처럼 설치: 안드로이드는 크롬 메뉴 → "앱 설치"(또는 위 버튼), 아이폰은 사파리 공유 → "홈 화면에 추가". "홈 화면에 추가"만 보이면 페이지를 한 번 새로고침한 뒤 다시 메뉴를 열어 보세요. 카카오톡·네이버 안에서 열렸다면 먼저 "브라우저로 열기"를 눌러야 합니다.
+          </p>
+        )}
         <button className="btn primary btn-block" onClick={onClose}>
           시작하기
         </button>
