@@ -1,71 +1,331 @@
 {
   "persons": [
-    { "id": "jesus", "name": "예수", "role": "그리스도, 하나님의 아들" },
-    { "id": "mary", "name": "마리아", "role": "예수의 어머니" },
-    { "id": "joseph", "name": "요셉", "role": "마리아의 남편" },
-    { "id": "john-baptist", "name": "세례 요한", "role": "길을 예비한 자" },
-    { "id": "peter", "name": "베드로", "role": "열두 제자, 반석" },
-    { "id": "john", "name": "요한", "role": "사랑하는 제자" },
-    { "id": "james", "name": "야고보", "role": "요한의 형제" },
-    { "id": "andrew", "name": "안드레", "role": "베드로의 형제" },
-    { "id": "matthew", "name": "마태", "role": "세리 출신 제자" },
-    { "id": "thomas", "name": "도마", "role": "의심하다 고백한 제자" },
-    { "id": "judas", "name": "가룟 유다", "role": "예수를 판 자" },
-    { "id": "nicodemus", "name": "니고데모", "role": "밤에 찾아온 바리새인" },
-    { "id": "martha", "name": "마르다", "role": "베다니의 자매" },
-    { "id": "lazarus", "name": "나사로", "role": "다시 살아난 자" },
-    { "id": "zacchaeus", "name": "삭개오", "role": "돌이킨 세리장" },
-    { "id": "pilate", "name": "빌라도", "role": "로마 총독" },
-    { "id": "mary-magdalene", "name": "막달라 마리아", "role": "부활의 첫 증인" },
-    { "id": "stephen", "name": "스데반", "role": "첫 순교자" },
-    { "id": "philip", "name": "빌립", "role": "전도자" },
-    { "id": "paul", "name": "바울", "role": "이방인의 사도" },
-    { "id": "barnabas", "name": "바나바", "role": "위로의 아들" },
-    { "id": "cornelius", "name": "고넬료", "role": "첫 이방인 신자" },
-    { "id": "silas", "name": "실라", "role": "바울의 동역자" },
-    { "id": "timothy", "name": "디모데", "role": "믿음의 아들" },
-    { "id": "lydia", "name": "루디아", "role": "빌립보 첫 신자" },
-    { "id": "priscilla-aquila", "name": "브리스길라와 아굴라", "role": "천막 만드는 부부" },
-    { "id": "apollos", "name": "아볼로", "role": "성경에 능한 자" },
-    { "id": "luke", "name": "누가", "role": "의사, 기록자" },
-    { "id": "mark", "name": "마가", "role": "복음서 기록자" },
-    { "id": "titus", "name": "디도", "role": "그레데의 목회자" },
-    { "id": "onesimus", "name": "오네시모", "role": "돌아온 종" },
-    { "id": "philemon", "name": "빌레몬", "role": "골로새의 형제" },
-    { "id": "james-lord", "name": "야고보(주의 형제)", "role": "예루살렘 교회 지도자" }
+    {
+      "id": "jesus",
+      "name": "예수",
+      "role": "그리스도, 하나님의 아들"
+    },
+    {
+      "id": "mary",
+      "name": "마리아",
+      "role": "예수의 어머니"
+    },
+    {
+      "id": "joseph",
+      "name": "요셉",
+      "role": "마리아의 남편"
+    },
+    {
+      "id": "john-baptist",
+      "name": "세례 요한",
+      "role": "길을 예비한 자"
+    },
+    {
+      "id": "peter",
+      "name": "베드로",
+      "role": "열두 제자, 반석"
+    },
+    {
+      "id": "john",
+      "name": "요한",
+      "role": "사랑하는 제자"
+    },
+    {
+      "id": "james",
+      "name": "야고보",
+      "role": "요한의 형제"
+    },
+    {
+      "id": "andrew",
+      "name": "안드레",
+      "role": "베드로의 형제"
+    },
+    {
+      "id": "matthew",
+      "name": "마태",
+      "role": "세리 출신 제자"
+    },
+    {
+      "id": "thomas",
+      "name": "도마",
+      "role": "의심하다 고백한 제자"
+    },
+    {
+      "id": "judas",
+      "name": "가룟 유다",
+      "role": "예수를 판 자"
+    },
+    {
+      "id": "nicodemus",
+      "name": "니고데모",
+      "role": "밤에 찾아온 바리새인"
+    },
+    {
+      "id": "martha",
+      "name": "마르다",
+      "role": "베다니의 자매"
+    },
+    {
+      "id": "lazarus",
+      "name": "나사로",
+      "role": "다시 살아난 자"
+    },
+    {
+      "id": "zacchaeus",
+      "name": "삭개오",
+      "role": "돌이킨 세리장"
+    },
+    {
+      "id": "pilate",
+      "name": "빌라도",
+      "role": "로마 총독"
+    },
+    {
+      "id": "mary-magdalene",
+      "name": "막달라 마리아",
+      "role": "부활의 첫 증인"
+    },
+    {
+      "id": "stephen",
+      "name": "스데반",
+      "role": "첫 순교자"
+    },
+    {
+      "id": "philip",
+      "name": "빌립",
+      "role": "전도자"
+    },
+    {
+      "id": "paul",
+      "name": "바울",
+      "role": "이방인의 사도"
+    },
+    {
+      "id": "barnabas",
+      "name": "바나바",
+      "role": "위로의 아들"
+    },
+    {
+      "id": "cornelius",
+      "name": "고넬료",
+      "role": "성령 받은 이방인 백부장"
+    },
+    {
+      "id": "silas",
+      "name": "실라",
+      "role": "바울의 동역자"
+    },
+    {
+      "id": "timothy",
+      "name": "디모데",
+      "role": "믿음의 아들"
+    },
+    {
+      "id": "lydia",
+      "name": "루디아",
+      "role": "빌립보 첫 신자"
+    },
+    {
+      "id": "priscilla-aquila",
+      "name": "브리스길라와 아굴라",
+      "role": "천막 만드는 부부"
+    },
+    {
+      "id": "apollos",
+      "name": "아볼로",
+      "role": "성경에 능한 자"
+    },
+    {
+      "id": "luke",
+      "name": "누가",
+      "role": "의사, 기록자"
+    },
+    {
+      "id": "mark",
+      "name": "마가",
+      "role": "마가복음의 기록자로 전해짐"
+    },
+    {
+      "id": "titus",
+      "name": "디도",
+      "role": "그레데의 목회자"
+    },
+    {
+      "id": "onesimus",
+      "name": "오네시모",
+      "role": "돌아온 종"
+    },
+    {
+      "id": "philemon",
+      "name": "빌레몬",
+      "role": "골로새의 형제"
+    },
+    {
+      "id": "james-lord",
+      "name": "야고보(주의 형제)",
+      "role": "예루살렘 교회 지도자"
+    }
   ],
   "relations": [
-    { "from": "mary", "to": "jesus", "label": "어머니" },
-    { "from": "joseph", "to": "mary", "label": "남편" },
-    { "from": "john-baptist", "to": "jesus", "label": "세례를 줌" },
-    { "from": "peter", "to": "jesus", "label": "제자" },
-    { "from": "john", "to": "jesus", "label": "제자" },
-    { "from": "james", "to": "john", "label": "형제" },
-    { "from": "andrew", "to": "peter", "label": "형제" },
-    { "from": "matthew", "to": "jesus", "label": "제자" },
-    { "from": "thomas", "to": "jesus", "label": "나의 주, 나의 하나님" },
-    { "from": "judas", "to": "jesus", "label": "배반" },
-    { "from": "nicodemus", "to": "jesus", "label": "밤에 찾아옴" },
-    { "from": "martha", "to": "lazarus", "label": "남매" },
-    { "from": "jesus", "to": "lazarus", "label": "살리심" },
-    { "from": "zacchaeus", "to": "jesus", "label": "영접" },
-    { "from": "pilate", "to": "jesus", "label": "재판" },
-    { "from": "mary-magdalene", "to": "jesus", "label": "부활 목격" },
-    { "from": "james-lord", "to": "jesus", "label": "형제" },
-    { "from": "stephen", "to": "paul", "label": "순교를 목격당함" },
-    { "from": "barnabas", "to": "paul", "label": "동역" },
-    { "from": "barnabas", "to": "mark", "label": "사촌" },
-    { "from": "peter", "to": "cornelius", "label": "복음 전함" },
-    { "from": "philip", "to": "stephen", "label": "일곱 집사" },
-    { "from": "silas", "to": "paul", "label": "동역" },
-    { "from": "timothy", "to": "paul", "label": "믿음의 아들" },
-    { "from": "lydia", "to": "paul", "label": "집을 엶" },
-    { "from": "priscilla-aquila", "to": "paul", "label": "동역" },
-    { "from": "priscilla-aquila", "to": "apollos", "label": "가르침" },
-    { "from": "luke", "to": "paul", "label": "동행" },
-    { "from": "mark", "to": "peter", "label": "통역" },
-    { "from": "titus", "to": "paul", "label": "동역" },
-    { "from": "onesimus", "to": "philemon", "label": "종" },
-    { "from": "paul", "to": "onesimus", "label": "중재" }
+    {
+      "from": "mary",
+      "to": "jesus",
+      "label": "어머니"
+    },
+    {
+      "from": "joseph",
+      "to": "mary",
+      "label": "남편"
+    },
+    {
+      "from": "john-baptist",
+      "to": "jesus",
+      "label": "세례를 줌"
+    },
+    {
+      "from": "peter",
+      "to": "jesus",
+      "label": "제자"
+    },
+    {
+      "from": "john",
+      "to": "jesus",
+      "label": "제자"
+    },
+    {
+      "from": "james",
+      "to": "john",
+      "label": "형제"
+    },
+    {
+      "from": "andrew",
+      "to": "peter",
+      "label": "형제"
+    },
+    {
+      "from": "matthew",
+      "to": "jesus",
+      "label": "제자"
+    },
+    {
+      "from": "thomas",
+      "to": "jesus",
+      "label": "나의 주, 나의 하나님"
+    },
+    {
+      "from": "judas",
+      "to": "jesus",
+      "label": "배반"
+    },
+    {
+      "from": "nicodemus",
+      "to": "jesus",
+      "label": "밤에 찾아옴"
+    },
+    {
+      "from": "martha",
+      "to": "lazarus",
+      "label": "남매"
+    },
+    {
+      "from": "jesus",
+      "to": "lazarus",
+      "label": "살리심"
+    },
+    {
+      "from": "zacchaeus",
+      "to": "jesus",
+      "label": "영접"
+    },
+    {
+      "from": "pilate",
+      "to": "jesus",
+      "label": "재판"
+    },
+    {
+      "from": "mary-magdalene",
+      "to": "jesus",
+      "label": "부활 목격"
+    },
+    {
+      "from": "james-lord",
+      "to": "jesus",
+      "label": "형제"
+    },
+    {
+      "from": "paul",
+      "to": "stephen",
+      "label": "순교를 지켜봄 (행 7:58)"
+    },
+    {
+      "from": "barnabas",
+      "to": "paul",
+      "label": "동역"
+    },
+    {
+      "from": "barnabas",
+      "to": "mark",
+      "label": "생질 (골 4:10)"
+    },
+    {
+      "from": "peter",
+      "to": "cornelius",
+      "label": "복음 전함"
+    },
+    {
+      "from": "philip",
+      "to": "stephen",
+      "label": "일곱 집사"
+    },
+    {
+      "from": "silas",
+      "to": "paul",
+      "label": "동역"
+    },
+    {
+      "from": "timothy",
+      "to": "paul",
+      "label": "믿음의 아들"
+    },
+    {
+      "from": "lydia",
+      "to": "paul",
+      "label": "집을 엶"
+    },
+    {
+      "from": "priscilla-aquila",
+      "to": "paul",
+      "label": "동역"
+    },
+    {
+      "from": "priscilla-aquila",
+      "to": "apollos",
+      "label": "가르침"
+    },
+    {
+      "from": "luke",
+      "to": "paul",
+      "label": "동행"
+    },
+    {
+      "from": "mark",
+      "to": "peter",
+      "label": "'내 아들 마가' (벧전 5:13)"
+    },
+    {
+      "from": "titus",
+      "to": "paul",
+      "label": "동역"
+    },
+    {
+      "from": "onesimus",
+      "to": "philemon",
+      "label": "종"
+    },
+    {
+      "from": "paul",
+      "to": "onesimus",
+      "label": "중재"
+    }
   ]
 }

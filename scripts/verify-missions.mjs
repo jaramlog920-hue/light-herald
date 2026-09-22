@@ -9,7 +9,7 @@ const bible = JSON.parse(await readFile(new URL('src/content/nt-krv.json', root)
 const books = JSON.parse(await readFile(new URL('src/content/books.json', root), 'utf8'))
 const byAbbr = Object.fromEntries(books.map((b) => [b.abbr, b.id]))
 const files = process.argv.slice(2)
-if (files.length === 0) files.push('src/content/missions.json', 'src/content/missions-hand-2.json')
+if (files.length === 0) files.push('src/content/missions.json', 'src/content/missions-hand-2.json', 'src/content/missions-hand-3.json', 'src/content/missions-hand-4.json', 'src/content/missions-hand-5.json')
 
 const norm = (s) => s.replace(/\s+/g, '').replace(/[,.!?…]/g, '')
 
