@@ -79,19 +79,20 @@ export function PeopleGraph() {
               onClick={() => setSel(p.id)}
               style={{ cursor: 'pointer' }}
             >
-              <circle r={jesus ? 34 : 20} fill={on ? (jesus ? '#1a1a2e' : '#1c2236') : '#141826'} stroke={on ? 'var(--gold)' : '#2a3044'} strokeWidth={sel === p.id ? 3 : 1.5} />
-              {/* 예수님은 십자가, 나머지는 실루엣 프로필. 미획득 인물은 어둡게 */}
-              <image
-                href={jesus ? '/assets/people/jesus.webp' : '/assets/people/person.webp'}
-                x={jesus ? -30 : -17}
-                y={jesus ? -30 : -17}
-                width={jesus ? 60 : 34}
-                height={jesus ? 60 : 34}
-                clipPath="url(#avatar-clip)"
-                opacity={on ? 1 : 0.3}
-                style={{ pointerEvents: 'none' }}
-              />
-              <text y={jesus ? 52 : 36} textAnchor="middle" fontSize={jesus ? 16 : 12} fill={on ? 'var(--fg)' : '#4a4f62'}>
+              <circle r={jesus ? 40 : 20} fill={on ? (jesus ? '#1a1a2e' : '#1c2236') : '#141826'} stroke={on ? 'var(--gold)' : '#2a3044'} strokeWidth={sel === p.id ? 3 : 1.5} />
+              {/* 예수님은 십자가, 인장을 얻은 인물만 실루엣 프로필. 미획득 인물은 빈 원 */}
+              {on && (
+                <image
+                  href={jesus ? '/assets/people/jesus.webp' : '/assets/people/person.webp'}
+                  x={jesus ? -36 : -17}
+                  y={jesus ? -36 : -17}
+                  width={jesus ? 72 : 34}
+                  height={jesus ? 72 : 34}
+                  clipPath="url(#avatar-clip)"
+                  style={{ pointerEvents: 'none' }}
+                />
+              )}
+              <text y={jesus ? 58 : 36} textAnchor="middle" fontSize={jesus ? 16 : 12} fill={on ? 'var(--fg)' : '#4a4f62'}>
                 {on ? p.name : '?'}
               </text>
             </g>
