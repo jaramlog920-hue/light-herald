@@ -21,7 +21,7 @@ if (typeof window !== 'undefined') {
 }
 
 export const isStandalone = () =>
-  typeof window !== 'undefined' && (window.matchMedia('(display-mode: standalone)').matches || (navigator as { standalone?: boolean }).standalone === true)
+  typeof window !== 'undefined' && (window.matchMedia?.('(display-mode: standalone)').matches === true || (navigator as { standalone?: boolean }).standalone === true)
 
 /** 설치 버튼을 보여줄 수 있는지와, 누르면 설치 프롬프트를 띄우는 함수 */
 export function useInstallPrompt() {
