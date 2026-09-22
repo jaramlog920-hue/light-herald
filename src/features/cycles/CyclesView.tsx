@@ -3,6 +3,7 @@ import { Link } from 'react-router'
 import { useProgress, selectTotalProgress, exportState, type PersistedShape } from '../../store/progress'
 import { cycleTitle } from './cycles'
 import { APP_TITLE } from '../../app/branding'
+import { BookmarkList } from '../reader/BookmarkList'
 import '../reader/reader.css'
 import '../cards/cards.css'
 
@@ -85,6 +86,12 @@ export function CyclesView() {
           <p className="muted">27권을 모두 읽으면 다음 회독을 시작할 수 있습니다. 이전 기록은 보존됩니다.</p>
         )}
         {confirming && <p className="muted">읽은 장 기록이 새 회독으로 넘어가며 지금 기록은 아래 목록에 보관됩니다.</p>}
+      </section>
+
+      <section>
+        <h2>북마크 · {Object.keys(state.bookmarks).length}개</h2>
+        <p className="muted">회독이 바뀌어도 북마크는 그대로 남습니다. 눌러서 구절로 바로 갑니다.</p>
+        <BookmarkList />
       </section>
 
       {state.history.length > 0 && (

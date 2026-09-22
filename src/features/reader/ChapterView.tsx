@@ -7,6 +7,7 @@ import { cardsForRef, isCardUnlocked } from '../cards/resolveCards'
 import { CardFace } from '../cards/CardFace'
 import { NoteBox } from './NoteBox'
 import { RewardSheet } from './RewardSheet'
+import { VerseList } from './VerseList'
 import { missionsForRef } from '../missions/grade'
 import './reader.css'
 
@@ -24,7 +25,8 @@ export function ChapterView() {
   useEffect(() => {
     setLastRef(refId)
     setShowReward(false)
-    window.scrollTo(0, 0)
+    // 구절 바로가기(?v=)로 들어온 경우엔 VerseList가 스크롤을 맡는다
+    if (!window.location.search.includes('v=')) window.scrollTo(0, 0)
   }, [refId, setLastRef])
 
   const next = nextRef(bookId, ch)
@@ -48,13 +50,7 @@ export function ChapterView() {
           {book.name} {ch}장
         </h1>
       </header>
-      <article className="verses">
-        {verses.map((v, i) => (
-          <p key={i}>
-            <sup>{i + 1}</sup> {v}
-          </p>
-        ))}
-      </article>
+      <VerseList refId={refId} verses={verses} />
       {readAt && (
         <section className="chapter-record">
           <h2>이 장의 기록</h2>

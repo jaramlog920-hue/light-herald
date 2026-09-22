@@ -17,3 +17,15 @@
 .complete-title { text-align: center; font-size: 22px; line-height: 1.6; color: var(--gold); margin: 24px 0 8px; }
 .keepsake { width: 100%; border-radius: 12px; border: 1px solid #2a3044; margin: 12px 0; }
 .complete-herald { display: block; height: 200px; margin: 8px auto 0; filter: drop-shadow(0 0 20px rgba(230, 180, 34, 0.5)); }
+/* 구절 북마크: 길게 누르면 시트, 표시된 구절은 금색 띠 */
+.verses p { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; border-left: 3px solid transparent; padding-left: 8px; margin-left: -11px; border-radius: 4px; transition: background 0.3s; }
+.verses p.bookmarked { border-left-color: var(--gold); background: rgba(230, 180, 34, 0.07); }
+.verses p.flash { background: rgba(230, 180, 34, 0.25); }
+.bookmark-mark { background: none; border: 0; padding: 0 4px 0 0; font-size: 14px; line-height: 1; vertical-align: -1px; }
+.bookmark-quote { margin: 0 0 4px; padding: 10px 12px; border-left: 3px solid var(--gold); background: var(--panel); border-radius: 0 8px 8px 0; font-size: 15px; line-height: 1.7; }
+.bookmark-list { list-style: none; padding: 0; margin: 0; }
+.bookmark-list li { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; margin: 4px 0; background: var(--panel); border-radius: 8px; font-size: 14px; }
+.bookmark-list li a { flex: 1; text-decoration: none; min-width: 0; }
+.bookmark-list .quote { color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.bookmark-list .memo { margin-top: 4px; line-height: 1.5; }
+.bookmark-list .remove { background: none; border: 0; color: var(--muted); font-size: 16px; padding: 0 2px; }

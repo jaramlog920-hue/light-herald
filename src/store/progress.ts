@@ -14,6 +14,14 @@ export interface CycleRecord {
   completedAt: string
 }
 
+export interface Bookmark {
+  memo: string
+  createdAt: string
+}
+
+/** 북마크 키: "book:chapter:verse" */
+export const bookmarkKey = (ref: string, verse: number) => `${ref}:${verse}`
+
 export interface ProgressState {
   cycle: number
   /** ref → ISO readAt (현재 회독) */
@@ -27,6 +35,8 @@ export interface ProgressState {
   gems: number
   /** 완료한 이전 회독 기록 */
   history: CycleRecord[]
+  /** 구절 북마크 — 회독이 바뀌어도 유지 */
+  bookmarks: Record<string, Bookmark>
   markRead: (ref: string) => void
   saveNote: (ref: string, text: string) => void
   setLastRef: (ref: string) => void
@@ -37,11 +47,15 @@ export interface ProgressState {
   spendGem: () => boolean
   /** 260장 완료 시에만 다음 회독 시작. 현재 기록은 history로 이동 */
   startNextCycle: () => boolean
+  /** 북마크 저장(없으면 생성, 있으면 메모만 갱신) */
+  setBookmark: (ref: string, verse: number, memo: string) => void
+  removeBookmark: (key: string) => void
+  clearBookmarks: () => void
   /** JSON 백업 병합: 읽은 장은 합집합(이른 날짜 우선), 묵상은 가져온 쪽 우선 */
   importState: (incoming: Partial<PersistedShape>) => void
 }
 
-export type PersistedShape = Pick<ProgressState, 'cycle' | 'readChapters' | 'notes' | 'lastRef' | 'seenMapRefs' | 'missions' | 'gems' | 'history'>
+export type PersistedShape = Pick<ProgressState, 'cycle' | 'readChapters' | 'notes' | 'lastRef' | 'seenMapRefs' | 'missions' | 'gems' | 'history' | 'bookmarks'>
 
 export const STORAGE_KEY = 'light-herald-progress'
 
@@ -56,6 +70,7 @@ export const useProgress = create<ProgressState>()(
       missions: {},
       gems: 0,
       history: [],
+      bookmarks: {},
       markRead: (ref) => {
         if (get().readChapters[ref]) return
         set((s) => ({ readChapters: { ...s.readChapters, [ref]: new Date().toISOString() } }))
@@ -80,6 +95,19 @@ export const useProgress = create<ProgressState>()(
         set({ cycle: s.cycle + 1, readChapters: {}, notes: {}, lastRef: null, seenMapRefs: [], history: [...s.history, record] })
         return true
       },
+      setBookmark: (ref, verse, memo) =>
+        set((s) => {
+          const key = bookmarkKey(ref, verse)
+          const prev = s.bookmarks[key]
+          return { bookmarks: { ...s.bookmarks, [key]: { memo, createdAt: prev?.createdAt ?? new Date().toISOString() } } }
+        }),
+      removeBookmark: (key) =>
+        set((s) => {
+          const next = { ...s.bookmarks }
+          delete next[key]
+          return { bookmarks: next }
+        }),
+      clearBookmarks: () => set({ bookmarks: {} }),
       importState: (incoming) =>
         set((s) => {
           const readChapters = { ...s.readChapters }
@@ -94,15 +122,17 @@ export const useProgress = create<ProgressState>()(
             gems: Math.max(s.gems, incoming.gems ?? 0),
             history: incoming.history && incoming.history.length > s.history.length ? incoming.history : s.history,
             seenMapRefs: Array.from(new Set([...s.seenMapRefs, ...(incoming.seenMapRefs ?? [])])),
+            bookmarks: { ...s.bookmarks, ...(incoming.bookmarks ?? {}) },
           }
         }),
     }),
     {
       name: STORAGE_KEY,
-      version: 2,
+      version: 3,
       migrate: (persisted, version) => {
-        const p = (persisted ?? {}) as Partial<PersistedShape>
-        if (version < 2) return { ...p, missions: {}, gems: 0, history: [] } as PersistedShape
+        let p = (persisted ?? {}) as Partial<PersistedShape>
+        if (version < 2) p = { ...p, missions: {}, gems: 0, history: [] }
+        if (version < 3) p = { ...p, bookmarks: {} }
         return p as PersistedShape
       },
     },
@@ -132,4 +162,5 @@ export const exportState = (s: ProgressState): PersistedShape => ({
   missions: s.missions,
   gems: s.gems,
   history: s.history,
+  bookmarks: s.bookmarks,
 })
