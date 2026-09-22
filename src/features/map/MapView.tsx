@@ -13,10 +13,12 @@ import { ProgressBar } from '../../shared/ProgressBar'
 import { CityPanel } from './CityPanel'
 import { APP_TITLE } from '../../app/branding'
 import { cycleTitle } from '../cycles/cycles'
+import { GuideSheet } from './GuideSheet'
 import './map.css'
 
 const MAP = mapJson as MapData
 const CITIES = new Map(MAP.cities.map((c) => [c.id, c]))
+const GUIDE_KEY = 'light-herald-guide-seen'
 
 export function MapView() {
   const { state, newRefs } = useMapState()
@@ -27,6 +29,22 @@ export function MapView() {
   const total = selectTotalProgress({ readChapters })
   const scroller = useRef<HTMLDivElement>(null)
   const [selected, setSelected] = useState<string | null>(null)
+  // 처음 방문한 기기에서는 안내를 자동으로 한 번 연다
+  const [guide, setGuide] = useState(() => {
+    try {
+      return localStorage.getItem(GUIDE_KEY) !== '1'
+    } catch {
+      return false
+    }
+  })
+  const closeGuide = () => {
+    setGuide(false)
+    try {
+      localStorage.setItem(GUIDE_KEY, '1')
+    } catch {
+      /* 저장 못 해도 동작에는 지장 없음 */
+    }
+  }
   const complete = total.read === total.total
   const layer = { state, cities: CITIES, isNew }
   const [lb, lc] = (lastRef ?? 'mat:1').split(':')
@@ -69,6 +87,9 @@ export function MapView() {
           {cycle}회차 · {cycleTitle(cycle)}
         </Link>
         <ProgressBar {...total} />
+        <button type="button" className="hud-help" aria-label="사용 안내" onClick={() => setGuide(true)}>
+          ?
+        </button>
       </header>
       <footer className="map-actions">
         {complete ? (
@@ -90,6 +111,7 @@ export function MapView() {
           미션
         </Link>
       </footer>
+      {guide && <GuideSheet onClose={closeGuide} />}
       {selected && CITIES.get(selected) && <CityPanel city={CITIES.get(selected)!} state={state} onClose={() => setSelected(null)} />}
     </main>
   )

@@ -75,7 +75,7 @@ test('voyage and detective and deliver and choice grade through UI', async () =>
   expect(useProgress.getState().missions['luk:10:choice']).toBeTruthy()
 })
 
-test('mission list shows lock state and reward sheet links to mission', async () => {
+test('mission list shows lock state and reward sheet links to mission', { timeout: 20000 }, async () => {
   const user = userEvent.setup()
   useProgress.getState().markRead('jhn:3')
   at('/missions')

@@ -1,0 +1,10 @@
+.hud-help { position: absolute; top: 12px; right: 16px; width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--gold); background: rgba(5, 7, 13, 0.7); color: var(--gold); font-weight: 700; font-size: 15px; display: flex; align-items: center; justify-content: center; pointer-events: auto; padding: 0; }
+.sheet.guide h2 { font-size: 17px; }
+.guide-lead { text-align: center; margin: -4px 0 12px; font-size: 14px; }
+.guide-steps { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 10px; }
+.guide-steps li { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; background: var(--panel); border-radius: 10px; }
+.guide-steps strong { display: block; font-size: 14px; margin-bottom: 2px; }
+.guide-steps p { margin: 0; font-size: 13px; line-height: 1.55; color: var(--muted); }
+.guide-icon { font-size: 20px; line-height: 1.2; flex: 0 0 auto; }
+.guide-install { font-size: 12px; line-height: 1.6; margin: 12px 0 0; }
+.sheet.guide .btn-block { width: 100%; }
