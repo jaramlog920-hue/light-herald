@@ -1,4 +1,4 @@
-import { useProgress, selectBookProgress, selectTotalProgress, selectReadSet } from './progress'
+import { useProgress, selectBookProgress, selectTotalProgress, selectReadSet, exportState } from './progress'
 
 beforeEach(() => {
   useProgress.setState(useProgress.getInitialState())
@@ -83,4 +83,49 @@ test('bookmark cap', async () => {
   // 이미 있는 북마크의 메모 수정은 상한과 무관
   expect(useProgress.getState().setBookmark('mat:1', 1, '수정')).toBe(true)
   expect(useProgress.getState().bookmarks['mat:1:1'].memo).toBe('수정')
+})
+
+test('export → fresh device → import restores everything', () => {
+  const s = useProgress.getState()
+  s.markRead('mat:1')
+  s.markRead('jhn:3')
+  s.saveNote('jhn:3', '사랑')
+  s.setLastRef('jhn:3')
+  s.markMapSeen(['book:mat'])
+  s.clearMission('jhn:3:quiz', 1)
+  s.addGem(2)
+  s.setBookmark('jhn:3', 16, '독생자')
+  const snapshot = exportState(useProgress.getState())
+  const json = JSON.parse(JSON.stringify(snapshot)) // 파일로 나갔다 들어온 것과 동일
+
+  useProgress.setState(useProgress.getInitialState())
+  useProgress.getState().importState(json)
+  const r = useProgress.getState()
+  expect(r.readChapters).toEqual(snapshot.readChapters)
+  expect(r.notes).toEqual(snapshot.notes)
+  expect(r.missions).toEqual(snapshot.missions)
+  expect(r.gems).toBe(2)
+  expect(r.bookmarks).toEqual(snapshot.bookmarks)
+  expect(r.seenMapRefs).toEqual(snapshot.seenMapRefs)
+  expect(r.lastRef).toBe('jhn:3')
+  expect(r.cycle).toBe(1)
+  // 다시 내보내면 동일
+  expect(exportState(r)).toEqual(snapshot)
+})
+
+test('import merges: earlier read date wins, imported note wins, bookmarks union', () => {
+  const s = useProgress.getState()
+  s.markRead('mat:1')
+  s.saveNote('mat:1', '내 것')
+  s.setBookmark('mat:1', 1, '')
+  s.importState({
+    readChapters: { 'mat:1': '2020-01-01T00:00:00.000Z', 'mat:2': '2021-01-01T00:00:00.000Z' },
+    notes: { 'mat:1': '가져온 것' },
+    bookmarks: { 'mat:2:5': { memo: 'm', createdAt: '2021-01-01T00:00:00.000Z' } },
+  })
+  const r = useProgress.getState()
+  expect(r.readChapters['mat:1']).toBe('2020-01-01T00:00:00.000Z')
+  expect(r.readChapters['mat:2']).toBeTruthy()
+  expect(r.notes['mat:1']).toBe('가져온 것')
+  expect(Object.keys(r.bookmarks).sort()).toEqual(['mat:1:1', 'mat:2:5'])
 })

@@ -137,7 +137,7 @@ export function CyclesView() {
             }}
           />
         </div>
-        <p className="muted">가져오기는 병합됩니다: 읽은 장은 합쳐지고, 같은 장의 묵상은 가져온 쪽이 남습니다.</p>
+        <p className="muted">백업에는 읽은 장·묵상·미션·카드·보석·북마크·지난 회독이 모두 들어갑니다. 가져오기는 병합됩니다: 읽은 장은 합쳐지고(이른 날짜 우선), 같은 장의 묵상은 가져온 쪽이 남으며, 북마크와 미션은 합쳐집니다.</p>
         {msg && <p role="status">{msg}</p>}
       </section>
     </main>

@@ -127,6 +127,7 @@ export const useProgress = create<ProgressState>()(
             history: incoming.history && incoming.history.length > s.history.length ? incoming.history : s.history,
             seenMapRefs: Array.from(new Set([...s.seenMapRefs, ...(incoming.seenMapRefs ?? [])])),
             bookmarks: { ...s.bookmarks, ...(incoming.bookmarks ?? {}) },
+            lastRef: s.lastRef ?? incoming.lastRef ?? null,
           }
         }),
     }),
