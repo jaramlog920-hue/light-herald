@@ -18,7 +18,7 @@ test('book list → chapter list → read → mark read → reward sheet with no
     </MemoryRouter>,
   )
   await user.click(screen.getByRole('link', { name: /마태복음/ }))
-  await user.click(screen.getByRole('link', { name: '1' }))
+  await user.click(screen.getByRole('link', { name: '1장' }))
   expect(screen.getByText(/아브라함과 다윗의 자손/)).toBeInTheDocument()
   await user.click(screen.getByRole('button', { name: '읽음' }))
   expect(useProgress.getState().readChapters['mat:1']).toBeTruthy()

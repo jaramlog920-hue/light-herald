@@ -29,3 +29,17 @@
 .bookmark-list .quote { color: var(--muted); font-size: 13px; line-height: 1.5; margin-top: 2px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .bookmark-list .memo { margin-top: 4px; line-height: 1.5; }
 .bookmark-list .remove { background: none; border: 0; color: var(--muted); font-size: 16px; padding: 0 2px; }
+/* 통독표 퍼즐: 읽은 장의 칸에 그 책 대표 그림 조각이 드러난다 */
+.chapter-grid.puzzle { gap: 3px; padding: 3px; background: #05070d; border-radius: 12px; border: 1px solid #2a3044; }
+.chapter-grid.puzzle .piece { aspect-ratio: 1 / var(--cell); background-color: var(--panel); border-radius: 4px; overflow: hidden; position: relative; }
+.chapter-grid.puzzle .piece.filler { background-color: #0b0f1a; }
+.chapter-grid.puzzle .piece a { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 0; background: transparent; border: 0; border-radius: 4px; }
+.chapter-grid.puzzle .piece a.done { color: var(--gold); }
+.chapter-grid.puzzle .piece .num { font-size: 15px; font-weight: 600; }
+.chapter-grid.puzzle .piece.revealed .num { font-size: 11px; padding: 1px 6px; border-radius: 8px; background: rgba(5, 7, 13, 0.7); color: var(--gold-soft); position: absolute; right: 4px; bottom: 4px; }
+.chapter-grid.puzzle .piece.revealed { animation: piece-in 0.5s ease-out; }
+@keyframes piece-in { from { filter: brightness(2); transform: scale(0.9); } to { filter: none; transform: none; } }
+.book-figure { width: 100%; max-width: 640px; margin: 0; background: var(--bg); border-radius: 20px 20px 0 0; padding: 12px 12px calc(16px + env(safe-area-inset-bottom)); border-top: 1px solid #2a3044; }
+.book-figure img { width: 100%; border-radius: 12px; display: block; }
+.book-figure figcaption { text-align: center; color: var(--gold); margin: 10px 0 2px; font-weight: 600; }
+.book-figure .btn { width: 100%; }

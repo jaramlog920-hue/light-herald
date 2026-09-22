@@ -22,11 +22,15 @@ a { color: inherit; }
 .pbar-fill { height: 100%; background: var(--gold); transition: width 0.4s; }
 .pbar-label { position: absolute; right: 6px; top: -18px; font-size: 12px; color: var(--muted); }
 
-/* 회독 테마: 1 전령(금) / 2 증인(은청) / 3 제자(백금) */
+/* 회독 테마: 1 전령(금) / 2 증인(은청) / 3 제자(백금) / 4 사도(구리빛 새벽) / 5 땅 끝(백광) */
 :root[data-cycle='2'] { --gold: #9fc4e8; --gold-soft: #dff0ff; }
 :root[data-cycle='3'] { --gold: #f1e6c8; --gold-soft: #ffffff; }
 :root[data-cycle='2'] .map-bg { filter: brightness(0.8) hue-rotate(200deg) saturate(0.6); }
 :root[data-cycle='3'] .map-bg { filter: brightness(0.95) saturate(0.4); }
+:root[data-cycle='4'] { --gold: #f0a066; --gold-soft: #ffd9b8; }
+:root[data-cycle='5'] { --gold: #fff2c8; --gold-soft: #ffffff; }
+:root[data-cycle='4'] .map-bg { filter: brightness(0.9) sepia(0.35) saturate(1.2); }
+:root[data-cycle='5'] .map-bg { filter: brightness(1.1) saturate(0.3) contrast(1.05); }
 .cycle-card { padding: 14px; border-radius: 12px; background: var(--panel); margin-bottom: 12px; }
 .cycle-card.current { border: 1px solid var(--gold); }
 .btn-block { display: block; margin-top: 12px; }
