@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import { persist } from 'zustand/middleware'
 import { ALL_REFS, getBook } from '../content/books'
+import { MISSION_IDS, RENAMED_MISSIONS } from '../features/missions/ids'
 
 export interface MissionRecord {
   clearedAt: string
@@ -40,6 +41,8 @@ export interface ProgressState {
   history: CycleRecord[]
   /** 구절 북마크 — 회독이 바뀌어도 유지 */
   bookmarks: Record<string, Bookmark>
+  /** 미션별로 산 힌트 수 — 한 번 사면 다시 보석을 쓰지 않는다 */
+  hints: Record<string, number>
   markRead: (ref: string) => void
   saveNote: (ref: string, text: string) => void
   setLastRef: (ref: string) => void
@@ -48,6 +51,8 @@ export interface ProgressState {
   addGem: (n?: number) => void
   /** 보석이 있으면 하나 쓰고 true */
   spendGem: () => boolean
+  /** 힌트 열기. 이미 산 미션이면 보석을 쓰지 않고 true */
+  buyHint: (missionId: string) => boolean
   /** 260장 완료 시에만 다음 회독 시작. 현재 기록은 history로 이동 */
   startNextCycle: () => boolean
   /** 북마크 저장(없으면 생성, 있으면 메모만 갱신). 상한에 걸리면 false */
@@ -58,9 +63,43 @@ export interface ProgressState {
   importState: (incoming: Partial<PersistedShape>) => void
 }
 
-export type PersistedShape = Pick<ProgressState, 'cycle' | 'readChapters' | 'notes' | 'lastRef' | 'seenMapRefs' | 'missions' | 'gems' | 'history' | 'bookmarks'>
+export type PersistedShape = Pick<ProgressState, 'cycle' | 'readChapters' | 'notes' | 'lastRef' | 'seenMapRefs' | 'missions' | 'gems' | 'history' | 'bookmarks' | 'hints'>
 
 export const STORAGE_KEY = 'light-herald-progress'
+
+/** 북마크 키가 "book:chapter:verse" 꼴이고 실제 절을 가리키는가 */
+export function isValidBookmarkKey(key: string): boolean {
+  const [bookId, ch, v] = key.split(':')
+  if (!bookId || !ch || !v) return false
+  const n = Number(ch), m = Number(v)
+  if (!Number.isInteger(n) || !Number.isInteger(m) || n < 1 || m < 1) return false
+  try {
+    return n <= getBook(bookId).chapters
+  } catch {
+    return false
+  }
+}
+
+/** 백업에서 들어온 북마크를 검증하고 상한까지만 받는다 */
+function mergeBookmarks(base: Record<string, Bookmark>, incoming?: Record<string, Bookmark>): Record<string, Bookmark> {
+  const out: Record<string, Bookmark> = {}
+  for (const [k, v] of Object.entries({ ...base, ...(incoming ?? {}) })) {
+    if (!isValidBookmarkKey(k) || !v || typeof v.memo !== 'string') continue
+    if (Object.keys(out).length >= MAX_BOOKMARKS) break
+    out[k] = v
+  }
+  return out
+}
+
+/** 이름이 바뀐 미션은 옮기고, 더 이상 없는 미션 기록은 버린다 */
+function cleanMissions(records?: Record<string, MissionRecord>): Record<string, MissionRecord> {
+  const out: Record<string, MissionRecord> = {}
+  for (const [id, rec] of Object.entries(records ?? {})) {
+    const key = RENAMED_MISSIONS[id] ?? id
+    if (MISSION_IDS.has(key)) out[key] = rec
+  }
+  return out
+}
 
 export const useProgress = create<ProgressState>()(
   persist(
@@ -74,6 +113,7 @@ export const useProgress = create<ProgressState>()(
       gems: 0,
       history: [],
       bookmarks: {},
+      hints: {},
       markRead: (ref) => {
         if (get().readChapters[ref]) return
         set((s) => ({ readChapters: { ...s.readChapters, [ref]: new Date().toISOString() } }))
@@ -89,6 +129,12 @@ export const useProgress = create<ProgressState>()(
       spendGem: () => {
         if (get().gems <= 0) return false
         set((s) => ({ gems: s.gems - 1 }))
+        return true
+      },
+      buyHint: (missionId) => {
+        if (get().hints[missionId]) return true
+        if (!get().spendGem()) return false
+        set((s) => ({ hints: { ...s.hints, [missionId]: (s.hints[missionId] ?? 0) + 1 } }))
         return true
       },
       startNextCycle: () => {
@@ -126,18 +172,20 @@ export const useProgress = create<ProgressState>()(
             gems: Math.max(s.gems, incoming.gems ?? 0),
             history: incoming.history && incoming.history.length > s.history.length ? incoming.history : s.history,
             seenMapRefs: Array.from(new Set([...s.seenMapRefs, ...(incoming.seenMapRefs ?? [])])),
-            bookmarks: { ...s.bookmarks, ...(incoming.bookmarks ?? {}) },
+            bookmarks: mergeBookmarks(s.bookmarks, incoming.bookmarks),
+            hints: { ...s.hints, ...(incoming.hints ?? {}) },
             lastRef: s.lastRef ?? incoming.lastRef ?? null,
           }
         }),
     }),
     {
       name: STORAGE_KEY,
-      version: 3,
+      version: 4,
       migrate: (persisted, version) => {
         let p = (persisted ?? {}) as Partial<PersistedShape>
         if (version < 2) p = { ...p, missions: {}, gems: 0, history: [] }
         if (version < 3) p = { ...p, bookmarks: {} }
+        if (version < 4) p = { ...p, hints: {}, missions: cleanMissions(p.missions), bookmarks: mergeBookmarks({}, p.bookmarks) }
         return p as PersistedShape
       },
     },
@@ -168,4 +216,5 @@ export const exportState = (s: ProgressState): PersistedShape => ({
   gems: s.gems,
   history: s.history,
   bookmarks: s.bookmarks,
+  hints: s.hints,
 })

@@ -33,10 +33,10 @@ export function MissionPlay() {
   const gems = useProgress((s) => s.gems)
   const clearMission = useProgress((s) => s.clearMission)
   const addGem = useProgress((s) => s.addGem)
-  const spendGem = useProgress((s) => s.spendGem)
+  const buyHint = useProgress((s) => s.buyHint)
+  const boughtHint = useProgress((s) => Boolean(s.hints[missionId]))
   const [result, setResult] = useState<'idle' | 'right' | 'wrong'>('idle')
   const [hintShown, setHintShown] = useState(false)
-  const [hintsUsed, setHintsUsed] = useState(0)
   const [attempt, setAttempt] = useState(0)
   const [gotGem, setGotGem] = useState(false)
   const [restoredCard, setRestoredCard] = useState(false)
@@ -56,7 +56,7 @@ export function MissionPlay() {
   const { bookId, chapter } = parseRef(mission.ref)
   const book = getBook(bookId)
 
-  if (!read) {
+  if (!read && !record) {
     return (
       <main className="reader">
         <header className="reader-head">
@@ -82,7 +82,7 @@ export function MissionPlay() {
       if (!record) {
         const after = { ...allRecords, [mission.id]: { clearedAt: new Date().toISOString() } }
         if (!isCardUnlocked(mission.ref, readChapters, allRecords) && isCardUnlocked(mission.ref, readChapters, after)) setRestoredCard(true)
-        clearMission(mission.id, hintsUsed)
+        clearMission(mission.id, boughtHint ? 1 : 0)
         if (rewardsGem(mission)) {
           addGem()
           setGotGem(true)
@@ -98,12 +98,10 @@ export function MissionPlay() {
     setResult('idle')
     setAttempt((n) => n + 1)
   }
+  // 이미 산 힌트는 다시 보석을 쓰지 않고 열린다
   const showHint = () => {
     if (hintShown) return
-    if (spendGem()) {
-      setHintShown(true)
-      setHintsUsed((n) => n + 1)
-    }
+    if (buyHint(missionId)) setHintShown(true)
   }
 
   const play = { submit, locked: cleared }
@@ -129,7 +127,7 @@ export function MissionPlay() {
         {mission.type === 'blank' && <BlankPlay mission={mission} {...play} />}
       </section>
 
-      {hintShown && (
+      {(hintShown || boughtHint) && (
         <div className="hint-box" role="note">
           💎 단서: {mission.hint}
         </div>
@@ -162,7 +160,7 @@ export function MissionPlay() {
             다시 도전
           </button>
         )}
-        {!cleared && !hintShown && (
+        {!cleared && !hintShown && !boughtHint && (
           <button className="btn" onClick={showHint} disabled={gems <= 0} title={gems <= 0 ? '암송 미션으로 보석을 얻으세요' : ''}>
             힌트 (💎1)
           </button>

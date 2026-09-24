@@ -23,6 +23,7 @@ export function CityLayer({ state, cities, onSelect }: LayerProps & { onSelect?:
                 fill="var(--gold)"
                 opacity={0.25}
                 filter="url(#glow)"
+                initial={{ r: 18, opacity: 0.2 }}
                 animate={{ r: [18, 26, 18], opacity: [0.2, 0.35, 0.2] }}
                 transition={{ repeat: Infinity, duration: 3 }}
               />

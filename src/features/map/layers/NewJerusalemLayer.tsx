@@ -17,6 +17,7 @@ export function NewJerusalemLayer({ state, cities }: LayerProps) {
           fill="none"
           stroke="#fff4c2"
           strokeWidth={2}
+          initial={{ r: 40, opacity: 0.8 }}
           animate={{ r: [40, 220], opacity: [0.8, 0] }}
           transition={{ repeat: Infinity, duration: 4, delay: i * 1.3 }}
         />

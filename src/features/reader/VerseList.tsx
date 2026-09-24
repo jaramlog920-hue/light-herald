@@ -19,7 +19,10 @@ export function VerseList({ refId, verses }: { refId: string; verses: string[] }
   useEffect(() => {
     if (!target) return
     const el = document.getElementById(`v-${target}`)
-    if (!el) return
+    if (!el) {
+      setParams({}, { replace: true })
+      return
+    }
     el.scrollIntoView?.({ block: 'center' })
     setFlash(target)
     const t = setTimeout(() => {

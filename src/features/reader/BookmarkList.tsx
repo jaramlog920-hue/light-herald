@@ -1,11 +1,20 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { useProgress } from '../../store/progress'
+import { useProgress, isValidBookmarkKey } from '../../store/progress'
 import { BOOKS, getBook } from '../../content/books'
 import { getChapter } from '../../content/bible'
 import './reader.css'
 
 const order = new Map(BOOKS.map((b, i) => [b.id, i]))
+
+/** 본문을 못 찾아도 목록이 깨지지 않게 한다 */
+function verseText(bookId: string, chapter: number, verse: number): string {
+  try {
+    return getChapter(bookId, chapter)[verse - 1] ?? ''
+  } catch {
+    return ''
+  }
+}
 
 /** 북마크 키 "book:chapter:verse" 분해 */
 function parseKey(key: string) {
@@ -21,6 +30,7 @@ export function BookmarkList() {
   const [confirming, setConfirming] = useState(false)
 
   const list = Object.entries(bookmarks)
+    .filter(([key]) => isValidBookmarkKey(key))
     .map(([key, b]) => ({ key, ...b, ...parseKey(key) }))
     .sort((a, b) => (order.get(a.bookId)! - order.get(b.bookId)!) || a.chapter - b.chapter || a.verse - b.verse)
 
@@ -35,7 +45,7 @@ export function BookmarkList() {
               <span style={{ color: 'var(--gold)' }}>
                 🔖 {getBook(b.bookId).name} {b.chapter}:{b.verse}
               </span>
-              <div className="quote">{getChapter(b.bookId, b.chapter)[b.verse - 1]}</div>
+              <div className="quote">{verseText(b.bookId, b.chapter, b.verse)}</div>
               {b.memo && <div className="memo">{b.memo}</div>}
             </Link>
             <button type="button" className="remove" aria-label={`${getBook(b.bookId).name} ${b.chapter}:${b.verse} 북마크 삭제`} onClick={() => removeBookmark(b.key)}>
