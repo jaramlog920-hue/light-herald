@@ -92,7 +92,7 @@ test('export → fresh device → import restores everything', () => {
   s.saveNote('jhn:3', '사랑')
   s.setLastRef('jhn:3')
   s.markMapSeen(['book:mat'])
-  s.clearMission('jhn:3:quiz', 1)
+  s.clearMission('jhn:3:word-puzzle', 1)
   s.addGem(2)
   s.setBookmark('jhn:3', 16, '독생자')
   const snapshot = exportState(useProgress.getState())

@@ -18,7 +18,11 @@
 .keepsake { width: 100%; border-radius: 12px; border: 1px solid #2a3044; margin: 12px 0; }
 .complete-herald { display: block; height: 200px; margin: 8px auto 0; filter: drop-shadow(0 0 20px rgba(230, 180, 34, 0.5)); }
 /* 구절 북마크: 길게 누르면 시트, 표시된 구절은 금색 띠 */
-.verses p { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; border-left: 3px solid transparent; padding-left: 8px; margin-left: -11px; border-radius: 4px; transition: background 0.3s; }
+.verses p { border-left: 3px solid transparent; padding-left: 8px; margin-left: -11px; border-radius: 4px; transition: background 0.3s; }
+/* 길게 누르기로 북마크하는 터치 기기에서만 선택을 막는다. PC에서는 구절을 복사할 수 있어야 한다 */
+@media (pointer: coarse) {
+  .verses p { -webkit-touch-callout: none; -webkit-user-select: none; user-select: none; }
+}
 .verses p.bookmarked { border-left-color: var(--gold); background: rgba(230, 180, 34, 0.07); }
 .verses p.flash { background: rgba(230, 180, 34, 0.25); }
 .bookmark-mark { background: none; border: 0; padding: 0 4px 0 0; font-size: 14px; line-height: 1; vertical-align: -1px; }

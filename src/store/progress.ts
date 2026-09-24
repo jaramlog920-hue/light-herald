@@ -91,6 +91,15 @@ function mergeBookmarks(base: Record<string, Bookmark>, incoming?: Record<string
   return out
 }
 
+const REF_SET = new Set(ALL_REFS)
+
+/** 백업에서 들어온 "book:chapter" 기록 중 실제 있는 장만 남긴다 */
+function pickKnownRefs<T>(map?: Record<string, T>): Record<string, T> {
+  const out: Record<string, T> = {}
+  for (const [ref, v] of Object.entries(map ?? {})) if (REF_SET.has(ref)) out[ref] = v
+  return out
+}
+
 /** 이름이 바뀐 미션은 옮기고, 더 이상 없는 미션 기록은 버린다 */
 function cleanMissions(records?: Record<string, MissionRecord>): Record<string, MissionRecord> {
   const out: Record<string, MissionRecord> = {}
@@ -160,16 +169,20 @@ export const useProgress = create<ProgressState>()(
       clearBookmarks: () => set({ bookmarks: {} }),
       importState: (incoming) =>
         set((s) => {
+          // 남의 기기에서 온 파일이므로 아는 장·미션만 받아들인다
           const readChapters = { ...s.readChapters }
-          for (const [ref, at] of Object.entries(incoming.readChapters ?? {})) {
+          for (const [ref, at] of Object.entries(pickKnownRefs(incoming.readChapters))) {
+            if (typeof at !== 'string') continue
             if (!readChapters[ref] || at < readChapters[ref]) readChapters[ref] = at
           }
+          const cycle = Number(incoming.cycle)
+          const gems = Number(incoming.gems)
           return {
-            cycle: Math.max(s.cycle, incoming.cycle ?? 1),
+            cycle: Math.max(s.cycle, Number.isFinite(cycle) && cycle >= 1 ? Math.floor(cycle) : 1),
             readChapters,
-            notes: { ...s.notes, ...(incoming.notes ?? {}) },
-            missions: { ...s.missions, ...(incoming.missions ?? {}) },
-            gems: Math.max(s.gems, incoming.gems ?? 0),
+            notes: { ...s.notes, ...pickKnownRefs(incoming.notes) },
+            missions: cleanMissions({ ...s.missions, ...(incoming.missions ?? {}) }),
+            gems: Math.max(s.gems, Number.isFinite(gems) && gems > 0 ? Math.floor(gems) : 0),
             history: incoming.history && incoming.history.length > s.history.length ? incoming.history : s.history,
             seenMapRefs: Array.from(new Set([...s.seenMapRefs, ...(incoming.seenMapRefs ?? [])])),
             bookmarks: mergeBookmarks(s.bookmarks, incoming.bookmarks),

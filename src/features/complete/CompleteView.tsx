@@ -25,10 +25,13 @@ export function CompleteView() {
 
   useEffect(() => {
     if (!complete || !canvasRef.current) return
+    let alive = true
     const img = new Image()
     img.src = '/assets/map-bg.webp'
     img.onload = () => {
-      const url = renderKeepsake(canvasRef.current!, {
+      // 그리기 전에 화면을 벗어났을 수 있다
+      if (!alive || !canvasRef.current) return
+      const url = renderKeepsake(canvasRef.current, {
         bg: img,
         cities: MAP.cities,
         state: resolveMap(new Set(Object.keys(readChapters))),
@@ -38,6 +41,9 @@ export function CompleteView() {
         cycleTitle: cycleTitle(cycle),
       })
       setPng(url)
+    }
+    return () => {
+      alive = false
     }
   }, [complete, readChapters, notes, cycle])
 

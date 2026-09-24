@@ -35,7 +35,7 @@ export function RewardSheet({ refId, nextTo, onClose }: Props) {
             </motion.div>
           ))}
         </div>
-        <NoteBox refId={refId} />
+        <NoteBox key={refId} refId={refId} />
         {missions.map((m) => (
           <Link key={m.id} className="btn mission-cta" to={`/missions/${m.id}`}>
             미션 해금: {m.title}

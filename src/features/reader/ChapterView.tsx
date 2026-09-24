@@ -60,7 +60,8 @@ export function ChapterView() {
               <CardFace key={c.id} card={c} compact earned={cardOpen} />
             ))}
           </div>
-          <NoteBox refId={refId} />
+          {/* 보상 시트에도 같은 입력칸이 있어, 열려 있는 동안에는 겹쳐 보이지 않게 한다 */}
+          {!showReward && <NoteBox key={refId} refId={refId} />}
           {missions.map((m) => (
             <Link key={m.id} className="btn mission-cta" to={`/missions/${m.id}`}>
               {records[m.id] ? '✓ ' : ''}미션: {m.title}
