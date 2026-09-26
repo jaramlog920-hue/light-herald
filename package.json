@@ -13,6 +13,7 @@
     "verify": "node scripts/verify-missions.mjs && node scripts/verify-cards.mjs && node scripts/verify-generated.mjs && node scripts/verify-no-overlap.mjs"
   },
   "dependencies": {
+    "@vercel/analytics": "^2.0.1",
     "framer-motion": "^13.4.0",
     "react": "^19.3.0",
     "react-dom": "^19.3.0",
