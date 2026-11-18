@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router'
-import { useProgress, isValidBookmarkKey } from '../../store/progress'
+import { useProgress, isValidBookmarkKey, type Bookmark } from '../../store/progress'
 import { BOOKS, getBook } from '../../content/books'
 import { getChapter } from '../../content/bible'
 import './reader.css'
@@ -8,7 +8,7 @@ import './reader.css'
 const order = new Map(BOOKS.map((b, i) => [b.id, i]))
 
 /** 본문을 못 찾아도 목록이 깨지지 않게 한다 */
-function verseText(bookId: string, chapter: number, verse: number): string {
+export function verseText(bookId: string, chapter: number, verse: number): string {
   try {
     return getChapter(bookId, chapter)[verse - 1] ?? ''
   } catch {
@@ -22,6 +22,14 @@ function parseKey(key: string) {
   return { bookId, chapter: Number(ch), verse: Number(v) }
 }
 
+/** 성경 순서로 정렬한 북마크 */
+export function sortedBookmarks(bookmarks: Record<string, Bookmark>) {
+  return Object.entries(bookmarks)
+    .filter(([key]) => isValidBookmarkKey(key))
+    .map(([key, b]) => ({ key, ...b, ...parseKey(key) }))
+    .sort((a, b) => (order.get(a.bookId)! - order.get(b.bookId)!) || a.chapter - b.chapter || a.verse - b.verse)
+}
+
 /** 회독 화면의 북마크 목록: 성경 순서, 바로가기 · 개별 삭제 · 전체 초기화 */
 export function BookmarkList() {
   const bookmarks = useProgress((s) => s.bookmarks)
@@ -29,10 +37,7 @@ export function BookmarkList() {
   const clearBookmarks = useProgress((s) => s.clearBookmarks)
   const [confirming, setConfirming] = useState(false)
 
-  const list = Object.entries(bookmarks)
-    .filter(([key]) => isValidBookmarkKey(key))
-    .map(([key, b]) => ({ key, ...b, ...parseKey(key) }))
-    .sort((a, b) => (order.get(a.bookId)! - order.get(b.bookId)!) || a.chapter - b.chapter || a.verse - b.verse)
+  const list = sortedBookmarks(bookmarks)
 
   if (list.length === 0) return <p className="muted">아직 북마크가 없습니다. 본문에서 구절을 길게 누르면 북마크할 수 있습니다.</p>
 

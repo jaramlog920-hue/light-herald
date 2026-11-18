@@ -97,6 +97,9 @@ export function CompleteView() {
           다음 회독
         </Link>
       </div>
+      <Link className="btn btn-block" to="/finale">
+        완독 장면 다시 보기
+      </Link>
       <section className="chapter-record">
         <h2>남긴 묵상 {noteList.length}개</h2>
         <ul className="relation-list">

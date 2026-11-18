@@ -6,6 +6,7 @@ import { ChapterView } from "../features/reader/ChapterView";
 import { CardGallery } from "../features/cards/CardGallery";
 import { PeopleGraph } from "../features/cards/PeopleGraph";
 import { CompleteView } from "../features/complete/CompleteView";
+import { FinaleView } from "../features/complete/FinaleView";
 import { MissionList } from "../features/missions/MissionList";
 import { MissionPlay } from "../features/missions/MissionPlay";
 import { CyclesView } from "../features/cycles/CyclesView";
@@ -23,6 +24,7 @@ export function AppRoutes({ home }: { home: ReactNode }) {
         <Route path="/cards" element={<CardGallery />} />
         <Route path="/people" element={<PeopleGraph />} />
         <Route path="/complete" element={<CompleteView />} />
+        <Route path="/finale" element={<FinaleView />} />
         <Route path="/missions" element={<MissionList />} />
         <Route path="/missions/:missionId" element={<MissionPlay />} />
         <Route path="/cycles" element={<CyclesView />} />

@@ -1,0 +1,11 @@
+.finale { display: flex; flex-direction: column; min-height: 100%; }
+.finale-step { flex: 1; align-self: stretch; }
+.finale-title { text-align: center; color: var(--gold); font-size: 22px; margin: 32px 0 16px; }
+.finale-list li { display: block; }
+.finale-quote { line-height: 1.6; margin-top: 4px; }
+.finale-note { line-height: 1.6; margin-top: 4px; white-space: pre-wrap; }
+.finale-commandment { min-height: 70vh; display: flex; flex-direction: column; justify-content: center; text-align: center; padding: 24px 8px; }
+.finale-commandment p { font-size: 19px; line-height: 1.8; margin: 0 0 14px; color: var(--gold-soft); }
+.finale-commandment cite { display: block; margin-top: 12px; font-style: normal; color: var(--muted); font-size: 14px; }
+.finale-foot { align-self: stretch; position: sticky; bottom: 0; padding: 12px 0 16px; background: linear-gradient(transparent, var(--bg) 30%); }
+.finale-foot .btn { width: 100%; }

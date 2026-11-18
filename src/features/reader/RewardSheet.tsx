@@ -4,6 +4,8 @@ import { cardsForRef } from '../cards/resolveCards'
 import { missionsForRef } from '../missions/grade'
 import { CardFace } from '../cards/CardFace'
 import { NoteBox } from './NoteBox'
+import { useProgress } from '../../store/progress'
+import { ALL_REFS } from '../../content/books'
 import '../cards/cards.css'
 
 interface Props {
@@ -17,6 +19,8 @@ export function RewardSheet({ refId, nextTo, onClose }: Props) {
   const cards = cardsForRef(refId)
   const missions = missionsForRef(refId)
   const needMission = missions.length > 0
+  // 순서와 상관없이 남은 마지막 장을 읽은 순간이 완독이다
+  const allRead = useProgress((s) => Object.keys(s.readChapters).length >= ALL_REFS.length)
   return (
     <div className="sheet-backdrop" role="dialog" aria-label="기억의 조각 획득" onClick={onClose}>
       <motion.div
@@ -45,7 +49,11 @@ export function RewardSheet({ refId, nextTo, onClose }: Props) {
           <Link className="btn" to="/">
             지도 보기
           </Link>
-          {nextTo ? (
+          {allRead ? (
+            <Link className="btn primary" to="/finale">
+              완독
+            </Link>
+          ) : nextTo ? (
             <Link className="btn primary" to={nextTo}>
               다음 장 →
             </Link>
